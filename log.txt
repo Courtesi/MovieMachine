@@ -1,0 +1,49 @@
+Configuration Error: deployment source 'cs122b-project1-api-example:war' is not valid
+Using CATALINA_BASE:   "C:\Users\cchan\AppData\Local\JetBrains\IntelliJIdea2024.1\tomcat\1f219441-edc7-4c55-84ad-160bad445378"
+Using CATALINA_HOME:   "C:\apache-tomcat-10.1.20"
+Using CATALINA_TMPDIR: "C:\apache-tomcat-10.1.20\temp"
+Using JRE_HOME:        "C:\Program Files\Java\jdk-11"
+Using CLASSPATH:       "C:\apache-tomcat-10.1.20\bin\bootstrap.jar;C:\apache-tomcat-10.1.20\bin\tomcat-juli.jar"
+Using CATALINA_OPTS:   ""
+13-Apr-2024 19:01:56.280 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/10.1.20
+13-Apr-2024 19:01:56.283 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Mar 19 2024 12:49:58 UTC
+13-Apr-2024 19:01:56.284 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 10.1.20.0
+13-Apr-2024 19:01:56.284 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 10
+13-Apr-2024 19:01:56.284 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
+13-Apr-2024 19:01:56.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+13-Apr-2024 19:01:56.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\jdk-11
+13-Apr-2024 19:01:56.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           11.0.22+9-LTS-219
+13-Apr-2024 19:01:56.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+13-Apr-2024 19:01:56.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         C:\Users\cchan\AppData\Local\JetBrains\IntelliJIdea2024.1\tomcat\1f219441-edc7-4c55-84ad-160bad445378
+13-Apr-2024 19:01:56.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         C:\apache-tomcat-10.1.20
+13-Apr-2024 19:01:56.288 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=C:\Users\cchan\AppData\Local\JetBrains\IntelliJIdea2024.1\tomcat\1f219441-edc7-4c55-84ad-160bad445378\conf\logging.properties
+13-Apr-2024 19:01:56.288 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+13-Apr-2024 19:01:56.288 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote=
+13-Apr-2024 19:01:56.288 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.port=1099
+13-Apr-2024 19:01:56.288 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.ssl=false
+13-Apr-2024 19:01:56.288 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.password.file=C:\Users\cchan\AppData\Local\JetBrains\IntelliJIdea2024.1\tomcat\1f219441-edc7-4c55-84ad-160bad445378\jmxremote.password
+13-Apr-2024 19:01:56.288 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.access.file=C:\Users\cchan\AppData\Local\JetBrains\IntelliJIdea2024.1\tomcat\1f219441-edc7-4c55-84ad-160bad445378\jmxremote.access
+13-Apr-2024 19:01:56.289 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.rmi.server.hostname=127.0.0.1
+13-Apr-2024 19:01:56.289 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+13-Apr-2024 19:01:56.289 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+13-Apr-2024 19:01:56.289 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang=ALL-UNNAMED
+13-Apr-2024 19:01:56.289 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.io=ALL-UNNAMED
+13-Apr-2024 19:01:56.289 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util=ALL-UNNAMED
+13-Apr-2024 19:01:56.289 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+13-Apr-2024 19:01:56.289 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+13-Apr-2024 19:01:56.289 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=C:\Users\cchan\AppData\Local\JetBrains\IntelliJIdea2024.1\tomcat\1f219441-edc7-4c55-84ad-160bad445378
+13-Apr-2024 19:01:56.290 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=C:\apache-tomcat-10.1.20
+13-Apr-2024 19:01:56.290 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=C:\apache-tomcat-10.1.20\temp
+13-Apr-2024 19:01:56.305 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent Loaded Apache Tomcat Native library [2.0.7] using APR version [1.7.4].
+13-Apr-2024 19:01:56.312 INFO [main] org.apache.catalina.core.AprLifecycleListener.initializeSSL OpenSSL successfully initialized [OpenSSL 3.0.13 30 Jan 2024]
+13-Apr-2024 19:01:56.582 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+13-Apr-2024 19:01:56.613 INFO [main] org.apache.catalina.startup.Catalina.load Server initialization in [601] milliseconds
+13-Apr-2024 19:01:56.672 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+13-Apr-2024 19:01:56.672 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/10.1.20]
+13-Apr-2024 19:01:56.694 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+13-Apr-2024 19:01:56.718 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [105] milliseconds
+Connected to server
+Configuration Error: deployment source 'cs122b-project1-api-example:war' is not valid
+13-Apr-2024 19:02:06.712 INFO [Catalina-utility-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\apache-tomcat-10.1.20\webapps\manager]
+13-Apr-2024 19:02:07.528 WARNING [Catalina-utility-1] org.apache.catalina.util.SessionIdGeneratorBase.createSecureRandom Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [477] milliseconds.
+13-Apr-2024 19:02:07.584 INFO [Catalina-utility-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\apache-tomcat-10.1.20\webapps\manager] has finished in [872] ms
