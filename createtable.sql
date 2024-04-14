@@ -36,6 +36,13 @@ CREATE TABLE IF NOT EXISTS genres_in_movies (
     PRIMARY KEY (genreId, movieId)
 );
 
+CREATE TABLE IF NOT EXISTS creditcards (
+    id VARCHAR(20) PRIMARY KEY,
+    firstName VARCHAR(50) NOT NULL,
+    lastName VARCHAR(50) NOT NULL,
+    expiration DATE NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS customers (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     firstName VARCHAR(50) NOT NULL,
@@ -54,13 +61,6 @@ CREATE TABLE IF NOT EXISTS sales (
     saleDate DATE NOT NULL,
     FOREIGN KEY (customerId) REFERENCES customers(id),
     FOREIGN KEY (movieId) REFERENCES movies(id)
-);
-
-CREATE TABLE IF NOT EXISTS creditcards (
-    id VARCHAR(20) PRIMARY KEY,
-    firstName VARCHAR(50) NOT NULL,
-    lastName VARCHAR(50) NOT NULL,
-    expiration DATE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS ratings (
