@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS my_movie_database;
+CREATE DATABASE IF NOT EXISTS moviedb;
 
-USE my_movie_database;
+USE moviedb;
 
 CREATE TABLE IF NOT EXISTS movies (
     id VARCHAR(10) PRIMARY KEY NOT NULL,
