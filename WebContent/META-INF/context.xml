@@ -11,11 +11,11 @@
               password="My6$Password"
               url="jdbc:mysql://localhost:3306/moviedbexample"/>
 
-    <Resource name="jdbc/my_movie_database"
+    <Resource name="jdbc/moviedb"
               auth="Container"
               driverClassName="com.mysql.jdbc.Driver"
               type="javax.sql.DataSource"
               username="mytestuser"
               password="My6$Password"
-              url="jdbc:mysql://localhost:3306/my_movie_database"/>
+              url="jdbc:mysql://localhost:3306/moviedb"/>
 </Context>
