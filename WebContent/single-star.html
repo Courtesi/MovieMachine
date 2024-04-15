@@ -16,22 +16,23 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <title>Single Star</title>
+    <link rel="stylesheet" href="styles.css">
+    <title id="single-star-title"></title>
 </head>
 <body>
-<h1>Single Star Page</h1>
+<div class="navbar">
+    <a href="/cs122b_project_part_1_war/">Home</a>
+</div>
 
 <!-- H3 body is left empty here, will be populated with the data retrieved with single-star.js -->
 <!-- single-star.js will find this html element by it's id "star_info" -->
-<h3 id="star_info"></h3>
-<table id=movie_table class="table table-striped">
+<h3 id="star_info" class="table_title"></h3>
+<table id=movie_table class="rounded-corner">
     <thead>
     <tr>
         <th>Movie Title</th>
         <th>Release Year</th>
         <th>Director</th>
-        <th>
     </tr>
     </thead>
 

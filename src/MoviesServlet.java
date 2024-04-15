@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -46,23 +47,23 @@ public class MoviesServlet extends HttpServlet {
 
             // Declare our statement
             Statement statement = conn.createStatement();
-            //SELECT
-            //    t1.*,
-            //    t2.rating,
-            //    SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT g.name), ',', 3) AS genre_names,
-            //    SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT s.name), ',', 3) AS stars
-            //FROM
-            //    movies t1
-            //JOIN
-            //    ratings t2 ON t1.id = t2.movieId
-            //JOIN
-            //    genres_in_movies t3 ON t1.id = t3.movieId
-            //JOIN
-            //    genres g ON t3.genreId = g.id
-            //JOIN
-            //    stars_in_movies t4 ON t1.id = t4.movieId
-            //JOIN
-            //    stars s ON t4.starId = s.id
+//            SELECT
+//                t1.*,
+//                t2.rating,
+//                SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT g.name), ',', 3) AS genre_names,
+//                SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT s.name), ',', 3) AS stars
+//            FROM
+//                movies t1
+//            JOIN
+//                ratings t2 ON t1.id = t2.movieId
+//            JOIN
+//                genres_in_movies t3 ON t1.id = t3.movieId
+//            JOIN
+//                genres g ON t3.genreId = g.id
+//            JOIN
+//                stars_in_movies t4 ON t1.id = t4.movieId
+//            JOIN
+//                stars s ON t4.starId = s.id
             //GROUP BY
             //    t1.id,
             //    t2.rating
@@ -73,8 +74,8 @@ public class MoviesServlet extends HttpServlet {
             String query = "SELECT \n" +
                     "    t1.*,\n" +
                     "    t2.rating,\n" +
-                    "    SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT g.name), ',', 3) AS genre_names,\n" +
-                    "    SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT s.name), ',', 3) AS stars\n" +
+                    "    SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT g.name ORDER BY SUBSTR(g.name, INSTR(g.name, ' '))), ',', 3) AS genre_names,\n" +
+                    "    SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT s.name ORDER BY SUBSTR(s.name, INSTR(s.name, ' '))), ',', 3) AS stars\n" +
                     "FROM \n" +
                     "    movies t1 \n" +
                     "JOIN \n" +
@@ -120,7 +121,36 @@ public class MoviesServlet extends HttpServlet {
                 jsonObject.addProperty("movie_stars", movie_stars);
                 jsonObject.addProperty("movie_rating", movie_rating);
 
+
+                Statement stars_statement = conn.createStatement();
+
+                String[] stars_list = movie_stars.split(",");
+
+//                SELECT stars.id
+//                FROM stars
+//                JOIN stars_in_movies ON stars.id = stars_in_movies.starId
+//                WHERE stars.name IN ('Alex Cox', 'Brendan Cleaves', 'Christian Marr', 'Christopher Cox')
+//                AND stars_in_movies.movieId = 'tt0349853'
+//                ORDER BY FIELD(name, 'name1', 'name2', 'name3');
+
+                String stars_id_query = "SELECT stars.id FROM stars " +
+                        "JOIN stars_in_movies ON stars.id = stars_in_movies.starId " +
+                        "WHERE stars.name IN ('" +
+                        stars_list[0] + "', '" + stars_list[1] + "', '" + stars_list[2] + "') " +
+                        "AND stars_in_movies.movieId = '" + movie_id +
+                        "' ORDER BY FIELD(name, '" + stars_list[0] + "', '" + stars_list[1] + "', '" + stars_list[2] + "');";
+
+                ResultSet stars_id_set = stars_statement.executeQuery(stars_id_query);
+
+                StringBuilder stars_ids = new StringBuilder();
+                while (stars_id_set.next()) {
+                    stars_ids.append(stars_id_set.getString("id")).append(",");
+                }
+                jsonObject.addProperty("stars_ids", stars_ids.toString());
                 jsonArray.add(jsonObject);
+
+                stars_id_set.close();
+                stars_statement.close();
             }
             rs.close();
             statement.close();

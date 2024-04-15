@@ -29,14 +29,27 @@ function handleMovieResult(resultData) {
         rowHTML +=
             "<th>" +
             // Add a link to single-movie.html with id passed with GET url parameter
-            '<a href="single-star.html?id=' + resultData[i]['movie_id'] + '">'
-            + resultData[i]["movie_title"] +     // display star_name for the link text
+            '<a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">' +
+            resultData[i]["movie_title"] +     // display star_name for the link text
             '</a>' +
             "</th>";
         rowHTML += "<th>" + resultData[i]["movie_year"] + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_director"] + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_genres"] + "</th>";
-        rowHTML += "<th>" + resultData[i]["movie_stars"] + "</th>";
+
+        const list_of_stars = resultData[i]["movie_stars"].split(",");
+        const list_of_stars_ids = resultData[i]["stars_ids"].split(",");
+
+        rowHTML += "<th>"
+        for (let j = 0; j < list_of_stars.length; j++) {
+            rowHTML += '<a href="single-star.html?id=' + list_of_stars_ids[j] + '">'
+            + list_of_stars[j] + '</a>';
+            if (j !== (list_of_stars.length - 1)) {
+                rowHTML += ", "
+            }
+        }
+        rowHTML += "</th>";
+
         rowHTML += "<th>" + resultData[i]["movie_rating"] + "</th>";
         rowHTML += "</tr>";
 
@@ -49,14 +62,6 @@ function handleMovieResult(resultData) {
 /**
  * Once this .js is loaded, following scripts will be executed by the browser
  */
-
-// Makes the HTTP GET request and registers on success callback function handleStarResult
-// jQuery.ajax({
-//     dataType: "json", // Setting return data type
-//     method: "GET", // Setting request method
-//     url: "api/stars", // Setting request url, which is mapped by StarsServlet in Stars.java
-//     success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
-// });
 
 jQuery.ajax({
     dataType: "json", // Setting return data type

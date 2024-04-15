@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
 // Declaring a WebServlet called SingleStarServlet, which maps to url "/api/single-star"
 @WebServlet(name = "SingleStarServlet", urlPatterns = "/api/single-star")
@@ -52,31 +53,42 @@ public class SingleStarServlet extends HttpServlet {
         try (Connection conn = dataSource.getConnection()) {
             // Get a connection from dataSource
 
-            // Construct a query with parameter represented by "?"
-            String query = "SELECT * from stars as s, stars_in_movies as sim, movies as m " +
-                    "where m.id = sim.movieId and sim.starId = s.id and s.id = ?";
-
-            // Declare our statement
-            PreparedStatement statement = conn.prepareStatement(query);
-
-            // Set the parameter represented by "?" in the query to the id we get from url,
-            // num 1 indicates the first "?" in the query
-            statement.setString(1, id);
-
-            // Perform the query
-            ResultSet rs = statement.executeQuery();
-
+            //Create JsonArray
             JsonArray jsonArray = new JsonArray();
 
-            // Iterate through each row of rs
-            int counter = 0;
-            while (rs.next() && counter < 10) {
-                counter++;
-                String starId = rs.getString("starId");
-                String starName = rs.getString("name");
-                String starDob = rs.getString("birthYear");
 
-                String movieId = rs.getString("movieId");
+            //Declare our statement
+            Statement statement = conn.createStatement();
+            String query = "SELECT m.* FROM movies m " +
+                    "JOIN stars_in_movies sim ON m.id = sim.movieId " +
+                    "WHERE sim.starId = '" + id + "';";
+            ResultSet rs = statement.executeQuery(query);
+
+            // Construct a query with parameter represented by "?"
+//             String query = "SELECT * from stars as s, stars_in_movies as sim, movies as m " +
+//              "where m.id = sim.movieId and sim.starId = s.id and s.id = ?";
+
+            Statement starStatement = conn.createStatement();
+            String starQuery = "select * from stars where id = '" + id + "';";
+            ResultSet starResult = starStatement.executeQuery(starQuery);
+            starResult.next();
+
+            String starId = starResult.getString("id");
+            String starName = starResult.getString("name");
+            String starDob = starResult.getString("birthYear");
+
+            JsonObject jSonObjectName = new JsonObject();
+            jSonObjectName.addProperty("star_id", starId);
+            jSonObjectName.addProperty("star_name", starName);
+            jSonObjectName.addProperty("star_dob", starDob);
+            jsonArray.add(jSonObjectName);
+
+            starResult.close();
+            starStatement.close();
+
+            // Iterate through each row of rs
+            while (rs.next()) {
+                String movieId = rs.getString("id");
                 String movieTitle = rs.getString("title");
                 String movieYear = rs.getString("year");
                 String movieDirector = rs.getString("director");
@@ -84,9 +96,6 @@ public class SingleStarServlet extends HttpServlet {
                 // Create a JsonObject based on the data we retrieve from rs
 
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("star_id", starId);
-                jsonObject.addProperty("star_name", starName);
-                jsonObject.addProperty("star_dob", starDob);
                 jsonObject.addProperty("movie_id", movieId);
                 jsonObject.addProperty("movie_title", movieTitle);
                 jsonObject.addProperty("movie_year", movieYear);
@@ -106,6 +115,7 @@ public class SingleStarServlet extends HttpServlet {
             // Write error message JSON object to output
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("errorMessage", e.getMessage());
+            jsonObject.addProperty("id", id);
             out.write(jsonObject.toString());
 
             // Log error to localhost log
