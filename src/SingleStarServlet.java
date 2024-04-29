@@ -56,12 +56,12 @@ public class SingleStarServlet extends HttpServlet {
             //Create JsonArray
             JsonArray jsonArray = new JsonArray();
 
-
             //Declare our statement
             Statement statement = conn.createStatement();
             String query = "SELECT m.* FROM movies m " +
                     "JOIN stars_in_movies sim ON m.id = sim.movieId " +
-                    "WHERE sim.starId = '" + id + "';";
+                    "WHERE sim.starId = '" + id + "'" +
+                    "ORDER BY m.year DESC, m.title;";
             ResultSet rs = statement.executeQuery(query);
 
             // Construct a query with parameter represented by "?"

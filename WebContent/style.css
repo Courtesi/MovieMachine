@@ -4,6 +4,11 @@ body               {
     font-family: 'Trocchi', serif;
     font-size: 26px;
     font-weight: normal;
+    text-align: center;
+}
+
+div {
+    margin-bottom: 50px;
 }
 
 a {
@@ -22,6 +27,10 @@ a:hover {
     overflow: hidden;
     border-radius: 10px 10px 0 0;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-right {
+    float: right;
 }
 
 /* Style for navigation links */
@@ -70,4 +79,80 @@ tr:last-child td {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* styling search bar */
+.search input[type=text] {
+    width: 300px;
+    height: 25px;
+    border-radius: 25px;
+    border: none;
+}
+
+.search {
+    float: right;
+    margin: 7px;
+}
+
+.search button {
+    background-color: #ffcbcb;
+    color: black;
+    float: right;
+    padding: 5px 10px;
+    margin-right: 16px;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+}
+
+#genre_body {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    columns: 4;
+    width: 50%;
+}
+
+#title_body {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 4em;
+}
+
+.browsing_tables {
+    text-align: center;
+}
+
+.browsing_elements {
+    margin: 4px;
+}
+
+.pagination_child {
+    display: inline-block;
+}
+.round_prev_next {
+    border-radius: 25px;
+    background-color: #ffcbcb;
+    color: black;
+    padding: 8px 16px;
+    width: 100%;
+}
+
+.round_prev_next:hover {
+    background-color: #e5b6b6;
+    color: white;
+    cursor: pointer;
+}
+
+#page_number {
+    width: 10%;
+    padding: 10px;
+}
+
+.round_prev_next:disabled {
+    cursor: not-allowed;
+    pointer-events: all !important;
+    opacity: 0.3;
 }

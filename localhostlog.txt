@@ -1,0 +1,60 @@
+Using CATALINA_BASE:   "C:\Users\cchan\AppData\Local\JetBrains\IntelliJIdea2024.1\tomcat\decd880a-f96b-4b93-973c-09baacb29a98"
+Using CATALINA_HOME:   "C:\apache-tomcat-10.1.20"
+Using CATALINA_TMPDIR: "C:\apache-tomcat-10.1.20\temp"
+Using JRE_HOME:        "C:\Program Files\Java\jdk-11"
+Using CLASSPATH:       "C:\apache-tomcat-10.1.20\bin\bootstrap.jar;C:\apache-tomcat-10.1.20\bin\tomcat-juli.jar"
+Using CATALINA_OPTS:   ""
+29-Apr-2024 07:01:59.603 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/10.1.20
+29-Apr-2024 07:01:59.605 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Mar 19 2024 12:49:58 UTC
+29-Apr-2024 07:01:59.605 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 10.1.20.0
+29-Apr-2024 07:01:59.605 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 10
+29-Apr-2024 07:01:59.605 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
+29-Apr-2024 07:01:59.606 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+29-Apr-2024 07:01:59.606 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\jdk-11
+29-Apr-2024 07:01:59.606 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           11.0.22+9-LTS-219
+29-Apr-2024 07:01:59.606 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+29-Apr-2024 07:01:59.606 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         C:\Users\cchan\AppData\Local\JetBrains\IntelliJIdea2024.1\tomcat\decd880a-f96b-4b93-973c-09baacb29a98
+29-Apr-2024 07:01:59.606 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         C:\apache-tomcat-10.1.20
+29-Apr-2024 07:01:59.608 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=C:\Users\cchan\AppData\Local\JetBrains\IntelliJIdea2024.1\tomcat\decd880a-f96b-4b93-973c-09baacb29a98\conf\logging.properties
+29-Apr-2024 07:01:59.608 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+29-Apr-2024 07:01:59.608 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote=
+29-Apr-2024 07:01:59.608 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.port=1099
+29-Apr-2024 07:01:59.608 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.ssl=false
+29-Apr-2024 07:01:59.608 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.password.file=C:\Users\cchan\AppData\Local\JetBrains\IntelliJIdea2024.1\tomcat\decd880a-f96b-4b93-973c-09baacb29a98\jmxremote.password
+29-Apr-2024 07:01:59.608 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcom.sun.management.jmxremote.access.file=C:\Users\cchan\AppData\Local\JetBrains\IntelliJIdea2024.1\tomcat\decd880a-f96b-4b93-973c-09baacb29a98\jmxremote.access
+29-Apr-2024 07:01:59.608 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.rmi.server.hostname=127.0.0.1
+29-Apr-2024 07:01:59.608 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+29-Apr-2024 07:01:59.608 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+29-Apr-2024 07:01:59.609 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang=ALL-UNNAMED
+29-Apr-2024 07:01:59.609 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.io=ALL-UNNAMED
+29-Apr-2024 07:01:59.609 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util=ALL-UNNAMED
+29-Apr-2024 07:01:59.609 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+29-Apr-2024 07:01:59.609 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+29-Apr-2024 07:01:59.609 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=C:\Users\cchan\AppData\Local\JetBrains\IntelliJIdea2024.1\tomcat\decd880a-f96b-4b93-973c-09baacb29a98
+29-Apr-2024 07:01:59.610 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=C:\apache-tomcat-10.1.20
+29-Apr-2024 07:01:59.610 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=C:\apache-tomcat-10.1.20\temp
+29-Apr-2024 07:01:59.613 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent Loaded Apache Tomcat Native library [2.0.7] using APR version [1.7.4].
+29-Apr-2024 07:01:59.619 INFO [main] org.apache.catalina.core.AprLifecycleListener.initializeSSL OpenSSL successfully initialized [OpenSSL 3.0.13 30 Jan 2024]
+29-Apr-2024 07:01:59.806 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+29-Apr-2024 07:01:59.837 INFO [main] org.apache.catalina.startup.Catalina.load Server initialization in [464] milliseconds
+29-Apr-2024 07:01:59.887 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+29-Apr-2024 07:01:59.888 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/10.1.20]
+29-Apr-2024 07:01:59.907 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+29-Apr-2024 07:01:59.927 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [90] milliseconds
+Connected to server
+29-Apr-2024 07:02:01.100 INFO [RMI TCP Connection(2)-127.0.0.1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+29-Apr-2024 07:02:01.877 WARNING [RMI TCP Connection(2)-127.0.0.1] org.apache.catalina.util.SessionIdGeneratorBase.createSecureRandom Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [754] milliseconds.
+LoginFilter: /cs122b_project_war/login.html
+29-Apr-2024 07:02:09.922 INFO [Catalina-utility-2] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\apache-tomcat-10.1.20\webapps\manager]
+29-Apr-2024 07:02:09.982 INFO [Catalina-utility-2] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\apache-tomcat-10.1.20\webapps\manager] has finished in [60] ms
+Using CATALINA_BASE:   "C:\Users\cchan\AppData\Local\JetBrains\IntelliJIdea2024.1\tomcat\decd880a-f96b-4b93-973c-09baacb29a98"
+Using CATALINA_HOME:   "C:\apache-tomcat-10.1.20"
+Using CATALINA_TMPDIR: "C:\apache-tomcat-10.1.20\temp"
+Using JRE_HOME:        "C:\Program Files\Java\jdk-11"
+Using CLASSPATH:       "C:\apache-tomcat-10.1.20\bin\bootstrap.jar;C:\apache-tomcat-10.1.20\bin\tomcat-juli.jar"
+Using CATALINA_OPTS:   ""
+29-Apr-2024 07:23:48.656 INFO [main] org.apache.catalina.core.StandardServer.await A valid shutdown command was received via the shutdown port. Stopping the Server instance.
+29-Apr-2024 07:23:48.657 INFO [main] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["http-nio-8080"]
+29-Apr-2024 07:23:49.336 INFO [main] org.apache.catalina.core.StandardService.stopInternal Stopping service [Catalina]
+29-Apr-2024 07:23:49.360 INFO [main] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["http-nio-8080"]
+29-Apr-2024 07:23:49.371 INFO [main] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["http-nio-8080"]

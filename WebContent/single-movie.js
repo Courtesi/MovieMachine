@@ -60,7 +60,18 @@ function handleResult(resultData) {
         let rowHTML = "";
         rowHTML += "<tr>";
         rowHTML += "<th>" + resultData[i]["movie_director"] + "</th>";
-        rowHTML += "<th>" + resultData[i]["movie_genres"] + "</th>";
+
+        const list_of_genres = resultData[i]["movie_genres"].split(",");
+
+        rowHTML += "<th>";
+        for (let j = 0; j < list_of_genres.length; j++) {
+            rowHTML += '<a href="movielist.html?genre=' + list_of_genres[j] + '">'
+                + list_of_genres[j] + '</a>';
+            if (j !== (list_of_genres.length - 1)) {
+                rowHTML += ", "
+            }
+        }
+        rowHTML += "</th>";
 
         const list_of_stars = resultData[i]["movie_stars"].split(",");
         const list_of_stars_ids = resultData[i]["stars_ids"].split(",");
@@ -74,7 +85,12 @@ function handleResult(resultData) {
         }
         rowHTML += "</th>";
 
-        rowHTML += "<th>" + resultData[i]["movie_rating"] + "</th>";
+
+        let movie_rating = "N/A";
+        if (resultData[i]["movie_rating"] !== null) {
+            movie_rating = resultData[i]["movie_rating"]
+        }
+        rowHTML += "<th>" + movie_rating + "</th>";
         rowHTML += "</tr>";
 
         // Append the row created to the table body, which will refresh the page

@@ -1,10 +1,48 @@
+<!-- This page will be redirected from any url if you are not logged in -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="login.css">
+
+    <title>Login to Fablix</title>
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"-->
+<!--          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
 </head>
 <body>
+<!-- Set the method to POST to avoid showing the username/password in the URL
+     The default action is disabled to allow your own implementation. -->
+<!--<h2 style="text-align:center">Login to Fablix</h2>-->
+<!--<div class="login_div" style="text-align:center">-->
+<!--    -->
+<!--    -->
+<!--</div>-->
+
+    <form id="login_form" method="post" action="#">
+        <div class="input-group">
+            <div class="inside-div">
+                <h2>Login to Fablix</h2>
+                <div class="form-group">
+                    <input class="input" name="username" id="username" required type="text">
+                    <label class="username-label" for="username">Email</label>
+                </div>
+                <div class="form-group">
+                    <input class="input" name="password" id="password" required type="password">
+                    <label class="password-label" for="password">Password</label>
+                </div>
+                <button class="button-36" role="button" type ="submit">Login</button>
+            </div>
+
+        </div>
+
+    </form>
+    <div id="login_error_message"></div>
+
+    <!-- include jQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- include our own JS file -->
+    <script src="./login.js"></script>
 
 </body>
 </html>

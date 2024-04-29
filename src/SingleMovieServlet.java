@@ -53,20 +53,25 @@ public class SingleMovieServlet extends HttpServlet {
         try (Connection conn = dataSource.getConnection()) {
             // Get a connection from dataSource
 
-//            SELECT t1.*, t2.rating, GROUP_CONCAT(DISTINCT g.name) AS genre_names, GROUP_CONCAT(DISTINCT s.name) AS stars
-//             FROM movies t1 JOIN ratings t2 ON t1.id = t2.movieId JOIN genres_in_movies t3 ON t1.id = t3.movieId
-//             JOIN genres g ON t3.genreId = g.id JOIN stars_in_movies t4 ON t1.id = t4.movieId
-//             JOIN stars s ON t4.starId = s.id where t1.id = ?;
+//            SELECT t1.*, t2.rating, GROUP_CONCAT(DISTINCT g.name ORDER BY g.name) AS genre_names,
+//            GROUP_CONCAT(DISTINCT s.name ORDER BY star_movie_count DESC, s.name) AS stars
+//            FROM movies t1 LEFT JOIN ratings t2 ON t1.id = t2.movieId INNER JOIN genres_in_movies t3 ON t1.id = t3.movieId
+//            INNER JOIN genres g ON t3.genreId = g.id INNER JOIN stars_in_movies t4 ON t1.id = t4.movieId
+//            INNER JOIN ( SELECT starId, COUNT(*) AS star_movie_count FROM stars_in_movies GROUP BY starId ) star_counts ON t4.starId = star_counts.starId
+//            INNER JOIN stars s ON t4.starId = s.id where t1.id = ? GROUP BY t1.id, t2.rating ORDER BY t2.rating DESC, t1.title;
 
-
-            String query = "SELECT t1.*, t2.rating, GROUP_CONCAT(DISTINCT g.name) AS genre_names, GROUP_CONCAT(DISTINCT s.name) AS stars " +
+            String query = "SELECT t1.*, t2.rating, GROUP_CONCAT(DISTINCT g.name ORDER BY g.name) AS genre_names,\n" +
+                    "GROUP_CONCAT(DISTINCT s.name ORDER BY star_movie_count DESC, s.name) AS stars\n" +
                     "FROM movies t1 " +
-                    "JOIN ratings t2 ON t1.id = t2.movieId " +
-                    "JOIN genres_in_movies t3 ON t1.id = t3.movieId " +
-                    "JOIN genres g ON t3.genreId = g.id " +
-                    "JOIN stars_in_movies t4 ON t1.id = t4.movieId " +
-                    "JOIN stars s ON t4.starId = s.id " +
-                    "where t1.id = ?;";
+                    "LEFT JOIN ratings t2 ON t1.id = t2.movieId " +
+                    "INNER JOIN genres_in_movies t3 ON t1.id = t3.movieId " +
+                    "INNER JOIN genres g ON t3.genreId = g.id " +
+                    "INNER JOIN stars_in_movies t4 ON t1.id = t4.movieId " +
+                    "INNER JOIN ( SELECT starId, COUNT(*) AS star_movie_count FROM stars_in_movies GROUP BY starId ) star_counts ON t4.starId = star_counts.starId\n" +
+                    "INNER JOIN stars s ON t4.starId = s.id " +
+                    "where t1.id = ? \n" +
+                    "GROUP BY t1.id, t2.rating \n" +
+                    "ORDER BY t2.rating DESC, t1.title;";
 
             // Declare our statement
             PreparedStatement statement = conn.prepareStatement(query);

@@ -16,12 +16,25 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
     <title id="single-star-title"></title>
 </head>
 <body>
 <div class="navbar">
-    <a href="index.html">Home</a>
+    <a href="main.html">Home</a>
+    <a href="movielist.html">Top 20</a>
+    <a href="movielist.html?results=true">Results</a>
+    <div class="search">
+        <form action="movielist.html" method="get">
+            <input name="title" type="text" placeholder="Title..">
+            <input name="year" type="text" placeholder="Year..">
+            <input name="director" type="text" placeholder="Director..">
+            <input name="star" type="text" placeholder="Star..">
+            <button type="submit">
+                <i class="fa fa-search" style="font-size: 18px;"></i>
+            </button>
+        </form>
+    </div>
 </div>
 
 <!-- H3 body is left empty here, will be populated with the data retrieved with single-star.js -->
