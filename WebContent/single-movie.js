@@ -9,6 +9,32 @@
  *      3. Populate the data to correct html elements.
  */
 
+function handleCartInfo(movieId) {
+    console.log("submit cart form");
+    /**
+     * When users click the submit button, the browser will not direct
+     * users to the url defined in HTML form. Instead, it will call this
+     * event handler when the event is triggered.
+     */
+    // cartEvent.preventDefault();
+
+    $.ajax("api/cart", {
+        method: "POST",
+        data: {"movieId": movieId},
+        success: resultDataString => {
+            let resultDataJson = JSON.parse(resultDataString);
+            // handleCartArray(resultDataJson["previousItems"]);
+        }
+    });
+    document.getElementById("overlay").style.display = "block";
+    document.getElementById("popupDialog").style.display = "block";
+}
+
+function closeFn() {
+    document.getElementById("overlay").style.display = "none";
+    document.getElementById("popupDialog").style.display = "none";
+}
+
 
 /**
  * Retrieve parameter from request URL, matching by parameter name
@@ -91,6 +117,9 @@ function handleResult(resultData) {
             movie_rating = resultData[i]["movie_rating"]
         }
         rowHTML += "<th>" + movie_rating + "</th>";
+
+        rowHTML += "<th>"+ "<input type='button' value='Add' onclick='handleCartInfo(\" " + resultData[i]["movie_id"] + " \");' />" + "</th>"
+
         rowHTML += "</tr>";
 
         // Append the row created to the table body, which will refresh the page

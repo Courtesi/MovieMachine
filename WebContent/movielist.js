@@ -48,6 +48,31 @@ function updateForm() {
     setting_parameters();
 }
 
+function handleCartInfo(movieId, movieTitle) {
+    console.log("submit cart form");
+    /**
+     * When users click the submit button, the browser will not direct
+     * users to the url defined in HTML form. Instead, it will call this
+     * event handler when the event is triggered.
+     */
+    // cartEvent.preventDefault();
+
+    $.ajax("api/cart", {
+        method: "POST",
+        data: {"movieId": movieId, "movieTitle": movieTitle},
+        success: resultDataString => {
+            // let resultDataJson = JSON.parse(resultDataString);
+            // // handleCartArray(resultDataJson["previousItems"]);
+        }
+    });
+    document.getElementById("overlay").style.display = "block";
+    document.getElementById("popupDialog").style.display = "block";
+}
+
+function closeFn() {
+    document.getElementById("overlay").style.display = "none";
+    document.getElementById("popupDialog").style.display = "none";
+}
 /**
  * Retrieve parameter from request URL, matching by parameter name
  * @param target String
@@ -148,8 +173,11 @@ function handleMovieResult(resultData) {
             movie_rating = resultData[i]["movie_rating"]
         }
         rowHTML += "<th>" + movie_rating + "</th>";
-        rowHTML += "</tr>";
 
+        rowHTML += "<th>"+ "<input type='button' value='Add' onclick='handleCartInfo(\" " + resultData[i]["movie_id"] +
+            " \", \" "+  resultData[i]["movie_title"] + "\");' />" + "</th>"
+
+        rowHTML += "</tr>";
         // Append the row created to the table body, which will refresh the page
         movieTableBodyElement.append(rowHTML);
     }
@@ -158,7 +186,7 @@ function handleMovieResult(resultData) {
 function setting_parameters() {
     const parameters_array = [];
 
-// Get parameters from URL
+    // Get parameters from URL
     let results = getParameterByName("results");
     if (results !== null && results.length !== 0) {
         console.log("api/movies?results=true")

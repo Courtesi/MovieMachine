@@ -17,6 +17,7 @@
     <a href="main.html">Home</a>
     <a href="movielist.html">Top 20</a>
     <a href="movielist.html?results=true">Results</a>
+    <a href="cart.html">Checkout</a>
     <div class="search">
         <form action="movielist.html" method="get">
             <input name="title" type="text" placeholder="Title..">
@@ -40,6 +41,7 @@
         <th>Genres</th>
         <th>Stars</th>
         <th>Rating</th>
+        <th>Cart</th>
 
     </tr>
     </thead>
@@ -48,6 +50,14 @@
     <!-- single-star.js will find this html element by it's id "movie_table_body" -->
     <tbody id=movie_table_body></tbody>
 </table>
+
+<div id="overlay"></div>
+<div id="popupDialog">
+    <p>Item successfully added!</p>
+    <button onclick="closeFn()">
+        Close
+    </button>
+</div>
 
 <!-- Load jQuery and Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
