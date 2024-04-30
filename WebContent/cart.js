@@ -112,7 +112,7 @@ function down() {
 
     var currentPage = document.getElementsByClassName('quantity')[0].innerHTML;
     if (parseInt(currentPage) > 1) {
-        document.getElementsByClassName('quantity')[0].innerHTML = (parseInt(currentPage) - 1).toString();
+        document.getElementsByClassName('quantity')[0].innerHTML = (parseInt(currentPage) - 1).toString(
     }
 }
 

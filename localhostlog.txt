@@ -55,3 +55,22 @@ LoginFilter: /cs122b_project_war/api/cart
 item:  tt0358456 ; item2:  Earthlings
 LoginFilter: /cs122b_project_war/cart.js
 LoginFilter: /cs122b_project_war/api/cart
+Using CATALINA_BASE:   "C:\Users\cchan\AppData\Local\JetBrains\IntelliJIdea2024.1\tomcat\decd880a-f96b-4b93-973c-09baacb29a98"
+Using CATALINA_HOME:   "C:\apache-tomcat-10.1.20"
+Using CATALINA_TMPDIR: "C:\apache-tomcat-10.1.20\temp"
+Using JRE_HOME:        "C:\Program Files\Java\jdk-11"
+Using CLASSPATH:       "C:\apache-tomcat-10.1.20\bin\bootstrap.jar;C:\apache-tomcat-10.1.20\bin\tomcat-juli.jar"
+Using CATALINA_OPTS:   ""
+29-Apr-2024 23:05:45.102 INFO [main] org.apache.catalina.core.StandardServer.await A valid shutdown command was received via the shutdown port. Stopping the Server instance.
+29-Apr-2024 23:05:45.103 INFO [main] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["http-nio-8080"]
+29-Apr-2024 23:05:45.798 INFO [main] org.apache.catalina.core.StandardService.stopInternal Stopping service [Catalina]
+29-Apr-2024 23:05:45.812 WARNING [main] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [cs122b_project_war] registered the JDBC driver [com.mysql.cj.jdbc.Driver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+29-Apr-2024 23:05:45.812 WARNING [main] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [cs122b_project_war] appears to have started a thread named [mysql-cj-abandoned-connection-cleanup] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@11.0.22/java.lang.Object.wait(Native Method)
+ java.base@11.0.22/java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:155)
+ com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:91)
+ java.base@11.0.22/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+ java.base@11.0.22/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+ java.base@11.0.22/java.lang.Thread.run(Thread.java:834)
+29-Apr-2024 23:05:45.825 INFO [main] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["http-nio-8080"]
+29-Apr-2024 23:05:45.837 INFO [main] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["http-nio-8080"]
