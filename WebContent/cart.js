@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let currentQuantity = parseInt(quantity.textContent);
 
-        console.log("cummies");
         minusBtn.addEventListener('click', () => {
             if (currentQuantity > 1) {
                 currentQuantity--;
@@ -66,18 +65,19 @@ function handleCartArray(resultArray) {
     let shoppingCartElement = jQuery("#shopping_cart_body");
 
     for (let i = 0; i < resultArray.length; i++) {
-        let rowHTML = "<tr id='"+resultArray[i]["movie_id"]+"'>";
+        let rowHTML = "<tr id=\""+resultArray[i]["movie_id"]+"\">";
 
-        rowHTML += "<th><a href='single-movie.html?id=" + resultArray[i]["movie_id"] + "'>" +
+        rowHTML += "<th id=\"table_cell\"><a href='single-movie.html?id=" + resultArray[i]["movie_id"] + "'>" +
         resultArray[i]["movie_title"] + "</a></th>";
 
         rowHTML += "<th><div class=\"quality-selector\">\n" +
-            "        <button class=\"minus-btn\" onclick=\"down()\">-</button>\n" +
-            "        <span class=\"quantity\">1</span>\n" +
-            "        <button class=\"plus-btn\" onclick=\"up()\">+</button>\n" +
+            "        <button class=\"minus-btn\" onclick=\"down(this)\">-</button>\n" +
+            "        <span class=\"quantity\">"+resultArray[i]["count"]+"</span>\n" +
+            "        <button class=\"plus-btn\" onclick=\"up(this)\">+</button>\n" +
             "      </div></th>";
 
-        rowHTML += "<th><input type=\"button\" value=\"Delete\"></th>";
+        // rowHTML += "<th><input type=\"button\" value=\"Delete\"></th>";
+        rowHTML += "<th><button onclick=\"deleteRow(this)\" type=\"button\" class=\"delete-button\">Delete</button></th>"
 
         rowHTML += "<th>$83.29</th>";
 
@@ -88,45 +88,48 @@ function handleCartArray(resultArray) {
     }
 }
 
-function up() {
-    console.log("uppies");
-
-    // $.ajax("api/cart?movie_id=" + rowId.toString() + "&oper=add", {
-    //     method: "PUT",
-    //     data: {"movie_id": rowId.toString()},
-    // });
-
-    var currentPage = document.getElementsByClassName('quantity')[0].innerHTML;
-    document.getElementsByClassName('quantity')[0].innerHTML = (parseInt(currentPage) + 1).toString();
-
-
-}
-
-function down() {
-    console.log("downs");
-
-    // $.ajax("api/cart?movie_id=" + rowId.toString() + "&oper=sub", {
-    //     method: "PUT",
-    //     data: {"movie_id": rowId.toString()},
-    // });
-
-    var currentPage = document.getElementsByClassName('quantity')[0].innerHTML;
-    if (parseInt(currentPage) > 1) {
-        document.getElementsByClassName('quantity')[0].innerHTML = (parseInt(currentPage) - 1).toString(
-    }
-}
-
-$('#cart_table').on('click', 'input[type="button"]', function(e){
-    $(this).closest('tr').remove();
-    var rowId = $(this).closest('tr').attr('id');
-    console.log("wowow: " + rowId.toString());
+function deleteRow(evt) {
+    var rowId = $(evt).closest('tr').attr('id');
 
     $.ajax("api/cart?movie_id=" + rowId.toString(), {
         method: "PUT",
+    });
+    const deleteIndex = evt.parentElement.parentElement.rowIndex;
+    document.getElementById("cart_table").deleteRow(deleteIndex);
+}
+
+function minusRow(evt) {
+    const deleteIndex = evt.parentElement.parentElement.parentElement.rowIndex; //this line is literally the only difference
+    document.getElementById("cart_table").deleteRow(deleteIndex);
+}
+
+function down(evt) {
+    var rowId = $(evt).closest('tr').attr('id');
+
+    $.ajax("api/cart?movie_id=" + rowId.toString() + "&count=true", {
+        method: "PUT",
+    });
+
+    var currentQuantity = document.getElementById(rowId).getElementsByTagName('th')[1].getElementsByClassName("quantity")[0].innerHTML;
+    if (parseInt(currentQuantity) > 1) {
+        document.getElementById(rowId).getElementsByTagName('th')[1].getElementsByClassName("quantity")[0].innerHTML = (parseInt(currentQuantity) - 1).toString();
+    } else {
+        minusRow(evt);
+    }
+}
+
+function up(evt) {
+    var rowId = $(evt).closest('tr').attr('id');
+    var rowTitle = $(evt).closest('tr').html();
+
+    $.ajax("api/cart", {
+        method: "POST",
         data: {"movie_id": rowId.toString()},
     });
-    console.log("passed?");
-})
+
+    var currentQuantity = document.getElementById(rowId).getElementsByTagName('th')[1].getElementsByClassName("quantity")[0].innerHTML;
+    document.getElementById(rowId).getElementsByTagName('th')[1].getElementsByClassName("quantity")[0].innerHTML = (parseInt(currentQuantity) + 1).toString();
+}
 
 $.ajax("api/cart", {
     method: "GET",

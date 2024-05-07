@@ -1,7 +1,8 @@
 var page = 1;
-
+var decreasing = false;
+var increasing = false;
+var update = false;
 document.addEventListener('DOMContentLoaded', function () {
-    console.log("cum");
     var num_movies = document.getElementById('num_movies');
     if (localStorage['num_movies']) { // if job is set
         num_movies.value = localStorage['num_movies']; // set the value
@@ -19,21 +20,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     document.getElementById('previous').addEventListener('click', function () {
+        // page -= 1;
 
-        console.log("WHYY");
-
-        page -= 1;
-
+        decreasing = true;
         updateForm();
+        decreasing = false;
     });
 
     document.getElementById('next').addEventListener('click', function () {
+        // page += 1;
 
-        console.log("cumnext");
-
-        page += 1;
-
+        increasing = true;
         updateForm();
+        increasing = false;
     });
 
     setting_parameters();
@@ -48,6 +47,24 @@ function updateForm() {
     setting_parameters();
 }
 
+function diffLayout() {
+    // var elements = document.getElementById("update").elements;
+    // var obj ={};
+    // for(var i = 0 ; i < elements.length ; i++){
+    //     var item = elements.item(i);
+    //     obj[item.name] = item.value;
+    // }
+    //
+    // var str = window.location.search
+    // str = replaceQueryParam('num_movies', obj["num_movies"], str);
+    // str = replaceQueryParam('sort_method', obj["sort_method"], str);
+    // window.history.pushState(null,"", "movielist.html" + str);
+    update = true;
+    page = 1;
+    updateForm();
+    update = false;
+}
+
 function handleCartInfo(movieId, movieTitle) {
     console.log("submit cart form");
     /**
@@ -59,11 +76,7 @@ function handleCartInfo(movieId, movieTitle) {
 
     $.ajax("api/cart", {
         method: "POST",
-        data: {"movieId": movieId, "movieTitle": movieTitle},
-        success: resultDataString => {
-            // let resultDataJson = JSON.parse(resultDataString);
-            // // handleCartArray(resultDataJson["previousItems"]);
-        }
+        data: {"movie_id": movieId, "movie_title": movieTitle},
     });
     document.getElementById("overlay").style.display = "block";
     document.getElementById("popupDialog").style.display = "block";
@@ -73,11 +86,109 @@ function closeFn() {
     document.getElementById("overlay").style.display = "none";
     document.getElementById("popupDialog").style.display = "none";
 }
-/**
- * Retrieve parameter from request URL, matching by parameter name
- * @param target String
- * @returns {*}
- */
+
+
+
+function making_url() {
+    const parameters_array = [];
+
+    // Get parameters from URL
+    let results = getParameterByName("results");
+    if (results !== null && results.length !== 0) {
+
+    }
+
+    let title = getParameterByName('title');
+    if (title !== null && title.length !== 0) {
+        parameters_array.push("title=" + title);
+    }
+
+    let year = getParameterByName('year');
+    if (year !== null && year.length !== 0) {
+        parameters_array.push("year=" + year);
+    }
+
+    let director = getParameterByName('director');
+    if (director !== null && director.length !== 0) {
+        parameters_array.push("director=" + director);
+    }
+
+    let star = getParameterByName('star');
+    if (star !== null && star.length !== 0) {
+        parameters_array.push("star=" + star);
+    }
+
+    let char = getParameterByName('char');
+    if (char !== null && char.length !== 0) {
+        parameters_array.push("char=" + char);
+    }
+
+    let genre = getParameterByName('genre');
+    if (genre !== null && genre.length !== 0) {
+        parameters_array.push("genre=" + genre);
+    }
+
+    if (update) {
+        parameters_array.push("sort_method=" + document.getElementById("sorting").value.toString());
+        parameters_array.push("num_movies=" + document.getElementById("num_movies").value.toString());
+    } else {
+        let sort_method = getParameterByName("sort_method");
+        if (sort_method !== null && sort_method.length !== 0) {
+            parameters_array.push("sort_method=" + sort_method);
+        } else {
+            parameters_array.push("sort_method=" + document.getElementById("sorting").value.toString());
+        }
+
+        let num_movies = getParameterByName("num_movies");
+        if (num_movies !== null && num_movies.length !== 0) {
+            parameters_array.push("num_movies=" + num_movies);
+        } else {
+            parameters_array.push("num_movies=" + document.getElementById("num_movies").value.toString());
+        }
+    }
+
+    if (increasing) {
+        parameters_array.push("page=" + (page + 1).toString());
+    } else if (decreasing) {
+        parameters_array.push("page=" + (page - 1).toString());
+    } else if (update) {
+        parameters_array.push("page=1");
+    } else {
+        let page_number = getParameterByName("page");
+        if (page_number !== null && page_number.length !== 0) {
+            // page = parseInt(page_number);
+            parameters_array.push("page=" + page_number);
+        } else {
+            parameters_array.push("page=" + page);
+        }
+    }
+
+    let parameters = "";
+    let flag = 0;
+    for (let i = 0; i < parameters_array.length; i++) {
+        if (flag) {
+            parameters += "&" + parameters_array[i];
+        } else {
+            parameters += "?" + parameters_array[i];
+            flag += 1;
+        }
+    }
+    return parameters;
+}
+function setting_parameters() {
+
+    let making = making_url();
+    let final_url = "api/movies" + making;
+    let push_url = "movielist.html" + making;
+    jQuery.ajax({
+        dataType: "json", // Setting return data type
+        method: "GET", // Setting request method
+        url: final_url, // Setting request url, which is mapped by StarsServlet in Stars.java
+        success: (resultData) => handleMovieResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+    });
+    window.history.pushState(null,"", push_url);
+}
+
 function getParameterByName(target) {
     // Get request URL
     let url = window.location.href;
@@ -94,10 +205,6 @@ function getParameterByName(target) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-/**
- * Handles the data returned by the API, read the jsonObject and populate data into html elements
- * @param resultData jsonObject
- */
 function handleMovieResult(resultData) {
     console.log("handleMovieResult: populating movie table from resultData");
 
@@ -117,9 +224,9 @@ function handleMovieResult(resultData) {
 
     document.querySelector("#previous").disabled = page === 1;
 
-    if (resultData.length <= parseInt(num_movies.value)) {
-        document.querySelector("#next").disabled = true;
-    }
+    console.log("next disabled?" + resultData.length <= parseInt(num_movies.value));
+    console.log("rdlength: " + resultData.length + " parseint: " + parseInt(num_movies.value));
+    document.querySelector("#next").disabled = resultData.length <= parseInt(num_movies.value);
 
     // Populate the movie table
     // Find the empty table body by id "movie_table_body"
@@ -174,104 +281,11 @@ function handleMovieResult(resultData) {
         }
         rowHTML += "<th>" + movie_rating + "</th>";
 
-        rowHTML += "<th>"+ "<input type='button' value='Add' onclick='handleCartInfo(\" " + resultData[i]["movie_id"] +
-            " \", \" "+  resultData[i]["movie_title"] + "\");' />" + "</th>"
+        rowHTML += "<th>"+ "<input type='button' value='Add' onclick='handleCartInfo(\"" + resultData[i]["movie_id"] +
+            "\", \""+  resultData[i]["movie_title"] + "\");' />" + "</th>"
 
         rowHTML += "</tr>";
         // Append the row created to the table body, which will refresh the page
         movieTableBodyElement.append(rowHTML);
     }
-}
-
-function setting_parameters() {
-    const parameters_array = [];
-
-    // Get parameters from URL
-    let results = getParameterByName("results");
-    if (results !== null && results.length !== 0) {
-        console.log("api/movies?results=true")
-        jQuery.ajax({
-            dataType: "json", // Setting return data type
-            method: "GET", // Setting request method
-            url: "api/movies?results=true", // Setting request url, which is mapped by StarsServlet in Stars.java
-            success: (resultData) => handleMovieResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
-        });
-        return;
-    }
-
-    let title = getParameterByName('title');
-    if (title !== null && title.length !== 0) {
-        parameters_array.push("title=" + title);
-    }
-
-    let year = getParameterByName('year');
-    if (year !== null && year.length !== 0) {
-        parameters_array.push("year=" + year);
-    }
-
-    let director = getParameterByName('director');
-    if (director !== null && director.length !== 0) {
-        parameters_array.push("director=" + director);
-    }
-
-    let star = getParameterByName('star');
-    if (star !== null && star.length !== 0) {
-        parameters_array.push("star=" + star);
-    }
-
-    let char = getParameterByName('char');
-    if (char !== null && char.length !== 0) {
-        parameters_array.push("char=" + char);
-    }
-
-    let genre = getParameterByName('genre');
-    if (genre !== null && genre.length !== 0) {
-        parameters_array.push("genre=" + genre);
-    }
-
-    let sort_method = getParameterByName("sort_method");
-    if (sort_method !== null && sort_method.length !== 0) {
-        parameters_array.push("sort_method=" + sort_method);
-    } else {
-        parameters_array.push("sort_method=" + document.getElementById("sorting").value.toString());
-    }
-
-    let num_movies = getParameterByName("num_movies");
-    if (num_movies !== null && num_movies.length !== 0) {
-        parameters_array.push("num_movies=" + num_movies);
-    } else {
-        parameters_array.push("num_movies=" + document.getElementById("num_movies").value.toString());
-    }
-
-    let page_number = getParameterByName("page");
-    if (page_number !== null && page_number.length !== 0) {
-        page = parseInt(page_number);
-        parameters_array.push("page=" + page_number);
-    } else {
-        parameters_array.push("page=" + page);
-    }
-
-    let temp_results = getParameterByName("results");
-    if (temp_results !== null && temp_results.length !== 0) {
-        parameters_array.push("results=" + temp_results);
-    }
-
-    let final_url = "api/movies";
-    let flag = 0;
-    for (let i = 0; i < parameters_array.length; i++) {
-        if (flag) {
-            final_url += "&" + parameters_array[i];
-        } else {
-            final_url += "?" + parameters_array[i];
-            flag += 1;
-        }
-    }
-
-    console.log(final_url)
-    jQuery.ajax({
-        dataType: "json", // Setting return data type
-        method: "GET", // Setting request method
-        url: final_url, // Setting request url, which is mapped by StarsServlet in Stars.java
-        success: (resultData) => handleMovieResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
-    });
 }

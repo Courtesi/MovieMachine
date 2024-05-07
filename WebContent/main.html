@@ -16,10 +16,11 @@
 </head>
 <body>
 <div class="navbar">
-    <a href="main.html">Home</a>
-    <a href="movielist.html">Top 20</a>
-    <a href="movielist.html?results=true">Results</a>
-    <a href="cart.html">Checkout</a>
+    <div class="buttons">
+        <a href="main.html">Home</a>
+        <a id="results" href="#">Results</a>
+        <a href="cart.html">Checkout</a>
+    </div>
     <div class="search">
         <form action="movielist.html" method="get">
             <input name="title" type="text" placeholder="Title..">
@@ -53,5 +54,6 @@
 <!-- Note the url does not contain a "/" in the beginning, which means the url is relative to current path
      otherwise the url is relative to the root path-->
 <script src="main.js"></script>
+<script src="./results.js"></script>
 </body>
 </html>

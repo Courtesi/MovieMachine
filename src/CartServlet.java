@@ -31,22 +31,20 @@ public class CartServlet extends HttpServlet {
         responseJsonObject.addProperty("sessionID", sessionId);
         responseJsonObject.addProperty("lastAccessTime", new Date(lastAccessTime).toString());
 
-        Map<String, Integer> previousItems = (Map<String, Integer>) session.getAttribute("previousItems");
+        Map<String, List<Object>> previousItems = (Map<String, List<Object>>) session.getAttribute("previousItems");
         if (previousItems == null) {
-            previousItems = new HashMap<String, Integer>();
+            previousItems = new HashMap<String, List<Object>>();
         }
         // Log to localhost log
         request.getServletContext().log("getting " + previousItems.size() + " items");
+
         JsonArray previousItemsJsonArray = new JsonArray();
-
-
-        for (Map.Entry<String, Integer> entry : previousItems.entrySet()) {
+        for (Map.Entry<String, List<Object>> entry : previousItems.entrySet()) {
             JsonObject jsonObject = new JsonObject();
 
-            String[] items = entry.getKey().split(",");
-            jsonObject.addProperty("movie_id", items[0]);
-            jsonObject.addProperty("movie_title", items[1]);
-            jsonObject.addProperty("count", entry.getValue().toString());
+            jsonObject.addProperty("movie_id", entry.getKey());
+            jsonObject.addProperty("movie_title", entry.getValue().get(0).toString());
+            jsonObject.addProperty("count", entry.getValue().get(1).toString());
             previousItemsJsonArray.add(jsonObject);
         }
 
@@ -60,36 +58,42 @@ public class CartServlet extends HttpServlet {
      * handles POST requests to add and show the item list information
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String item = request.getParameter("movieId");
-        String item2 = request.getParameter("movieTitle");
+        String item = request.getParameter("movie_id");
+        String item2 = request.getParameter("movie_title");
 
-        System.out.println(String.format("item: %s; item2: %s", item, item2));
-
-
+        System.out.printf("item: %s; item2: %s%n", item, item2);
+        
         HttpSession session = request.getSession();
 
-        // get the previous items in a ArrayList
-        Map<String, Integer> previousItems = (Map<String, Integer>) session.getAttribute("previousItems");
+        Map<String, List<Object>> previousItems = (Map<String, List<Object>>) session.getAttribute("previousItems");
         if (previousItems == null) {
-            previousItems = new HashMap<String, Integer>();
-            previousItems.merge(item+","+item2, 1, Integer::sum);
+            previousItems = new HashMap<String, List<Object>>();
+            List<Object> hashMapList = new ArrayList<Object>(Arrays.asList(item2, 1));
+            previousItems.put(item, hashMapList);
+
             session.setAttribute("previousItems", previousItems);
         } else {
             // prevent corrupted states through sharing under multi-threads
             // will only be executed by one thread at a time
             synchronized (previousItems) {
-                previousItems.merge(item+","+item2, 1, Integer::sum);
+                if (previousItems.containsKey(item)) {
+                    Integer prev_num = (Integer) previousItems.get(item).get(1);
+                    previousItems.get(item).set(1, prev_num + 1);
+                } else {
+                    List<Object> hashMapList = new ArrayList<Object>(Arrays.asList(item2, 1));
+                    previousItems.put(item, hashMapList);
+                }
             }
+//            previousItems.merge(item+","+item2, 1, Integer::sum);
         }
 
         JsonArray previousItemsJsonArray = new JsonArray();
-        for (Map.Entry<String, Integer> entry : previousItems.entrySet()) {
+        for (Map.Entry<String, List<Object>> entry : previousItems.entrySet()) {
             JsonObject jsonObject = new JsonObject();
 
-            String[] items = entry.getKey().split(",");
-            jsonObject.addProperty("movie_id", items[0]);
-            jsonObject.addProperty("movie_title", items[1]);
-            jsonObject.addProperty("count", entry.getValue().toString());
+            jsonObject.addProperty("movie_id", entry.getKey());
+            jsonObject.addProperty("movie_title", entry.getValue().get(0).toString());
+            jsonObject.addProperty("count", entry.getValue().get(1).toString());
             previousItemsJsonArray.add(jsonObject);
         }
     }
@@ -98,52 +102,58 @@ public class CartServlet extends HttpServlet {
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+        String movie_id = request.getParameter("movie_id");
 
-//        String data = br.readLine();
-
-//        System.out.println(String.format("data: %s", data));
-
-        String data = request.getParameter("movie_id");
+        System.out.printf("movie_id: %s;\n", movie_id);
 
         try {
-            if (request.getParameter("count") == null && data != null) {
-
-                JsonObject responseJsonObject = new JsonObject();
-                Map<String, Integer> previousItems = (Map<String, Integer>) session.getAttribute("previousItems");
-
-
+            Map<String, List<Object>> previousItems = (Map<String, List<Object>>) session.getAttribute("previousItems");
+            if (request.getParameter("count") == null && movie_id != null) {
                 if (previousItems != null) {
-                    Iterator<Map.Entry<String, Integer>> iterator = previousItems.entrySet().iterator();
+                    Iterator<Map.Entry<String, List<Object>>> iterator = previousItems.entrySet().iterator();
                     while (iterator.hasNext()) {
-                        Map.Entry<String, Integer> entry = iterator.next();
-                        if (entry.getKey().toUpperCase().contains(data.toUpperCase())) {
+                        Map.Entry<String, List<Object>> entry = iterator.next();
+                        if (entry.getKey().equals(movie_id)) {
                             iterator.remove();
                         }
                     }
                 }
-
-                session.setAttribute("previousItems", previousItems);
-
-                JsonArray previousItemsJsonArray = new JsonArray();
-                for (Map.Entry<String, Integer> entry : previousItems.entrySet()) {
-                    JsonObject jsonObject = new JsonObject();
-
-                    String[] items = entry.getKey().split(",");
-                    jsonObject.addProperty("movie_id", items[0]);
-                    jsonObject.addProperty("movie_title", items[1]);
-                    jsonObject.addProperty("count", entry.getValue().toString());
-                    previousItemsJsonArray.add(jsonObject);
+            } else if (request.getParameter("count") != null && movie_id != null) {
+                if (previousItems != null) {
+                    Iterator<Map.Entry<String, List<Object>>> iterator = previousItems.entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Map.Entry<String, List<Object>> entry = iterator.next();
+                        if (entry.getKey().equals(movie_id)) {
+                            Integer prev_num = (Integer) previousItems.get(movie_id).get(1);
+                            if (prev_num - 1 == 0) {
+                                iterator.remove();
+                            } else {
+                                previousItems.get(movie_id).set(1, prev_num - 1);
+                            }
+                        }
+                    }
                 }
-                responseJsonObject.add("previousItems", previousItemsJsonArray);
-
-                // write all the data into the jsonObject
-                response.getWriter().write(responseJsonObject.toString());
             }
+            JsonObject responseJsonObject = new JsonObject();
+            session.setAttribute("previousItems", previousItems);
+
+            JsonArray previousItemsJsonArray = new JsonArray();
+            for (Map.Entry<String, List<Object>> entry : previousItems.entrySet()) {
+                JsonObject jsonObject = new JsonObject();
+
+                jsonObject.addProperty("movie_id", entry.getKey());
+                jsonObject.addProperty("movie_title", entry.getValue().get(0).toString());
+                jsonObject.addProperty("count", entry.getValue().get(1).toString());
+                previousItemsJsonArray.add(jsonObject);
+            }
+            responseJsonObject.add("previousItems", previousItemsJsonArray);
+
+            // write all the data into the jsonObject
+            response.getWriter().write(responseJsonObject.toString());
+
         } catch (Exception e) {
             System.out.print("my error that I made error: ");
             System.out.println(e.getMessage());
         }
-
     }
 }

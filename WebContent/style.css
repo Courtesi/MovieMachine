@@ -83,7 +83,7 @@ tr:last-child td {
 
 /* styling search bar */
 .search input[type=text] {
-    width: 300px;
+    width: 200px;
     height: 25px;
     border-radius: 25px;
     border: none;
@@ -91,7 +91,12 @@ tr:last-child td {
 
 .search {
     float: right;
-    margin: 7px;
+    margin: 3px;
+}
+
+.buttons {
+    float: left;
+    margin: 3px;
 }
 
 .search button {
