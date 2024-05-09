@@ -11,8 +11,10 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/api/login")
 public class LoginServlet extends HttpServlet {
@@ -34,7 +36,7 @@ public class LoginServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
-        PrintWriter out = response.getWriter();
+
         try {
             RecaptchaVerifyUtils.verify(gRecaptchaResponse);
         } catch (Exception e) {
@@ -53,23 +55,22 @@ public class LoginServlet extends HttpServlet {
             JsonObject responseJsonObject = new JsonObject();
             if (rs.isBeforeFirst()) {
                 rs.next();
-                String true_password = rs.getString("password");
 
-                if (true_password.equals(password)) {
+                if (verifyCredentials(username, password)) {
                     // Login success:
 
                     // set this user into the session
                     request.getSession().setAttribute("user", new User(username));
 
                     responseJsonObject.addProperty("status", "success");
-                    responseJsonObject.addProperty("message", "success");
+                    responseJsonObject.addProperty("message", "Success");
                 } else {
                     // Login fail
                     responseJsonObject.addProperty("status", "fail");
                     // Log to localhost log
                     request.getServletContext().log("Login failed");
                     // sample error messages. in practice, it is not a good idea to tell user which one is incorrect/not exist.
-                    responseJsonObject.addProperty("message", "incorrect password");
+                    responseJsonObject.addProperty("message", "Incorrect password");
                 }
             } else {
                 // Login fail
@@ -77,7 +78,7 @@ public class LoginServlet extends HttpServlet {
                 // Log to localhost log
                 request.getServletContext().log("Login failed");
                 // sample error messages. in practice, it is not a good idea to tell user which one is incorrect/not exist.
-                responseJsonObject.addProperty("message", "user " + username + " doesn't exist");
+                responseJsonObject.addProperty("message", "User " + username + " doesn't exist");
             }
             response.getWriter().write(responseJsonObject.toString());
             rs.close();
@@ -97,5 +98,37 @@ public class LoginServlet extends HttpServlet {
         } finally {
             response.getWriter().close();
         }
+    }
+
+    private static boolean verifyCredentials(String email, String password) throws Exception {
+
+        String loginUser = "mytestuser";
+        String loginPasswd = "My6$Password";
+        String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+
+        Class.forName("com.mysql.jdbc.Driver").newInstance();
+        Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+        Statement statement = connection.createStatement();
+
+        String query = String.format("SELECT * from customers where email='%s'", email);
+
+        ResultSet rs = statement.executeQuery(query);
+
+        boolean success = false;
+        if (rs.next()) {
+            // get the encrypted password from the database
+            String encryptedPassword = rs.getString("password");
+
+            // use the same encryptor to compare the user input password with encrypted password stored in DB
+            success = new StrongPasswordEncryptor().checkPassword(password, encryptedPassword);
+        }
+
+        rs.close();
+        statement.close();
+        connection.close();
+
+//        System.out.println("verify " + email + " - " + password);
+
+        return success;
     }
 }

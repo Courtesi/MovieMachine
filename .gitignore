@@ -173,3 +173,8 @@ buildNumber.properties
 
 /log.txt
 /localhostlog.txt
+
+/new_error_log.txt
+/new_genres.txt
+/new_genres_in_movies.txt
+/new_movies.txt
