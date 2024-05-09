@@ -61,7 +61,8 @@ public class SingleMovieServlet extends HttpServlet {
 //            INNER JOIN stars s ON t4.starId = s.id where t1.id = ? GROUP BY t1.id, t2.rating ORDER BY t2.rating DESC, t1.title;
 
             String query = "SELECT t1.*, t2.rating, GROUP_CONCAT(DISTINCT g.name ORDER BY g.name) AS genre_names,\n" +
-                    "GROUP_CONCAT(DISTINCT s.name ORDER BY star_movie_count DESC, s.name) AS stars\n" +
+                    "GROUP_CONCAT(DISTINCT s.name ORDER BY star_movie_count DESC, s.name) AS stars, \n" +
+                    "GROUP_CONCAT(DISTINCT s.id ORDER BY star_movie_count DESC, s.name) as star_names \n" +
                     "FROM movies t1 " +
                     "LEFT JOIN ratings t2 ON t1.id = t2.movieId " +
                     "INNER JOIN genres_in_movies t3 ON t1.id = t3.movieId " +
@@ -94,9 +95,9 @@ public class SingleMovieServlet extends HttpServlet {
                 String movieGenres = rs.getString("genre_names");
                 String movieStars = rs.getString("stars");
                 String movieRating = rs.getString("rating");
+                String movie_star_ids = rs.getString("star_names");
 
                 // Create a JsonObject based on the data we retrieve from rs
-
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("movie_id", movieId);
                 jsonObject.addProperty("movie_title", movieTitle);
@@ -105,36 +106,9 @@ public class SingleMovieServlet extends HttpServlet {
                 jsonObject.addProperty("movie_genres", movieGenres);
                 jsonObject.addProperty("movie_stars", movieStars);
                 jsonObject.addProperty("movie_rating", movieRating);
+                jsonObject.addProperty("stars_ids", movie_star_ids);
 
-                Statement stars_statement = conn.createStatement();
-                String[] stars_list = movieStars.split(",");
-                String stars_id_query = "SELECT id FROM stars JOIN stars_in_movies ON stars.id = stars_in_movies.starId WHERE name IN ('";
-                for (int j = 0; j < stars_list.length; j++) {
-                    if (j < stars_list.length - 1) {
-                        stars_id_query += stars_list[j] + "', '";
-                    } else {
-                        stars_id_query += stars_list[j] + "')";
-                    }
-                }
-                stars_id_query += "AND stars_in_movies.movieId = '" + movieId + "' ORDER BY FIELD(name, '";
-                for (int j = 0; j < stars_list.length; j++) {
-                    if (j < stars_list.length - 1) {
-                        stars_id_query += stars_list[j] + "', '";
-                    } else {
-                        stars_id_query += stars_list[j] + "');";
-                    }
-                }
-                ResultSet stars_id_set = stars_statement.executeQuery(stars_id_query);
-
-                StringBuilder stars_ids = new StringBuilder();
-                while (stars_id_set.next()) {
-                    stars_ids.append(stars_id_set.getString("id")).append(",");
-                }
-                jsonObject.addProperty("stars_ids", stars_ids.toString());
                 jsonArray.add(jsonObject);
-
-                stars_id_set.close();
-                stars_statement.close();
             }
             rs.close();
             statement.close();

@@ -171,4 +171,5 @@ buildNumber.properties
 
 .idea/
 
-src/RecaptchaConstants.java
+/log.txt
+/localhostlog.txt

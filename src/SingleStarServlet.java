@@ -14,7 +14,6 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
 // Declaring a WebServlet called SingleStarServlet, which maps to url "/api/single-star"
 @WebServlet(name = "SingleStarServlet", urlPatterns = "/api/single-star")
@@ -57,20 +56,23 @@ public class SingleStarServlet extends HttpServlet {
             JsonArray jsonArray = new JsonArray();
 
             //Declare our statement
-            Statement statement = conn.createStatement();
             String query = "SELECT m.* FROM movies m " +
                     "JOIN stars_in_movies sim ON m.id = sim.movieId " +
-                    "WHERE sim.starId = '" + id + "'" +
+                    "WHERE sim.starId = ?" +
                     "ORDER BY m.year DESC, m.title;";
-            ResultSet rs = statement.executeQuery(query);
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, id);
+            ResultSet rs = statement.executeQuery();
 
             // Construct a query with parameter represented by "?"
 //             String query = "SELECT * from stars as s, stars_in_movies as sim, movies as m " +
 //              "where m.id = sim.movieId and sim.starId = s.id and s.id = ?";
 
-            Statement starStatement = conn.createStatement();
-            String starQuery = "select * from stars where id = '" + id + "';";
-            ResultSet starResult = starStatement.executeQuery(starQuery);
+            String starQuery = "select * from stars where id = ?";
+            PreparedStatement starStatement = conn.prepareStatement(starQuery);
+            starStatement.setString(1, id);
+
+            ResultSet starResult = starStatement.executeQuery();
             starResult.next();
 
             String starId = starResult.getString("id");
@@ -104,7 +106,7 @@ public class SingleStarServlet extends HttpServlet {
                 jsonArray.add(jsonObject);
             }
             rs.close();
-            statement.close();
+            starStatement.close();
 
             // Write JSON string to output
             out.write(jsonArray.toString());

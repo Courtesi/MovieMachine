@@ -33,22 +33,13 @@ public class LoginServlet extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
-//        PrintWriter out = response.getWriter();
-//        try {
-//            RecaptchaVerifyUtils.verify(gRecaptchaResponse);
-//        } catch (Exception e) {
-//            out.println("<html>");
-//            out.println("<head><title>Error</title></head>");
-//            out.println("<body>");
-//            out.println("<p>recaptcha verification error</p>");
-//            out.println("<p>" + e.getMessage() + "</p>");
-//            out.println("</body>");
-//            out.println("</html>");
-//
-//            out.close();
-//            return;
-//        }
+        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+        PrintWriter out = response.getWriter();
+        try {
+            RecaptchaVerifyUtils.verify(gRecaptchaResponse);
+        } catch (Exception e) {
+            return;
+        }
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
