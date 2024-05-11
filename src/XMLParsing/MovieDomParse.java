@@ -18,17 +18,16 @@ import java.sql.Statement;
 import java.util.*;
 
 
-public class MyDomParse {
+public class MovieDomParse {
 
-    List<Movie> movies = new ArrayList<>();
+//    List<Movie> movies = new ArrayList<>();
     Document dom;
     int maxId;
 
     Map<String, String> categories = new HashMap<>();
+    Set<String> movieIds = new HashSet<>();
 
-
-
-    public void runExample() {
+    public Set<String> runMovieDomParse() {
         categories.put("susp", "Thriller");
         categories.put("cnr", "Cops and Robbers");
         categories.put("dram", "Drama");
@@ -70,10 +69,10 @@ public class MyDomParse {
         // parse the xml file and get the dom object
         parseXmlFile();
 
-        // get each employee element and create a Employee object
+        // get each employee element and create an Employee object
         parseDocument();
 
-
+        return movieIds;
     }
 
     private void parseXmlFile() {
@@ -88,7 +87,6 @@ public class MyDomParse {
             // parse using builder to get DOM representation of the XML file
             System.out.println("system running...");
             dom = documentBuilder.parse("stanford-movies/mains243.xml");
-//            dom = documentBuilder.parse("testsample.xml");
             System.out.println("System passed documentbuilder...");
 
         } catch (ParserConfigurationException | SAXException | IOException error) {
@@ -100,10 +98,10 @@ public class MyDomParse {
     private void parseDocument() {
         try {
             //opening files
-            FileWriter newMoviesWriter = new FileWriter("new_movies.txt", false);
-            FileWriter genresInMoviesWriter = new FileWriter("new_genres_in_movies.txt", false);
-            FileWriter genresWriter = new FileWriter("new_genres.txt", false);
-            FileWriter errorLogWriter = new FileWriter("new_error_log.txt", false);
+            FileWriter newMoviesWriter = new FileWriter("src/XMLParsing/mains_movies.txt", false);
+            FileWriter genresInMoviesWriter = new FileWriter("src/XMLParsing/mains_genres_in_movies.txt", false);
+            FileWriter genresWriter = new FileWriter("src/XMLParsing/mains_genres.txt", false);
+            FileWriter errorLogWriter = new FileWriter("src/XMLParsing/mains_error_log.txt", false);
 
             // Connect to the database
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -111,9 +109,9 @@ public class MyDomParse {
                     Parameters.username, Parameters.password);
 
             Map<String, Integer> genres = new HashMap<>();
-            Set<String> movieIdSet = new HashSet<String>();
+            Set<String> movieIdSet = new HashSet<>();
             if (connection != null) {
-                JsonObject jsonObject = new JsonObject();
+//                JsonObject jsonObject = new JsonObject();
 
                 String query = "select * from genres;";
                 Statement statement = connection.createStatement();
@@ -141,7 +139,6 @@ public class MyDomParse {
                 System.out.println("No connection");
                 return;
             }
-
 
             // get the document root Element
             Element documentElement = dom.getDocumentElement();
@@ -215,11 +212,12 @@ public class MyDomParse {
                             movieIdSet.add(movie.getId());
                             newMoviesWriter.write(movie + "\n");
                             genresInMoviesWriter.write(writerString);
+                            movieIds.add(movie.getId());
                         }
                     }
                 }
             }
-            System.out.println("Final counter: " + counter);
+            System.out.println("mains243 counter: " + counter + "\n");
             newMoviesWriter.close();
             genresInMoviesWriter.close();
             genresWriter.close();
@@ -239,7 +237,6 @@ public class MyDomParse {
         String title = getTextValue(element, "t");
         int year = getIntValue(element, "year");
         ArrayList<String> genre = getArrayValue(element, "cat");
-//        String director = getTextValue(element,"director");
         // create a new Employee with the value read from the xml nodes
         return new Movie(id, title, year, director, genre);
     }
@@ -247,7 +244,7 @@ public class MyDomParse {
     /**
      * It takes an XML element and the tag name, look for the tag and get
      * the text content
-     * i.e for <Employee><Name>John</Name></Employee> xml snippet if
+     * i.e. for <Employee><Name>John</Name></Employee> xml snippet if
      * the Element points to employee node and tagName is name it will return John
      */
     private String getTextValue(Element element, String tagName) {
@@ -291,32 +288,19 @@ public class MyDomParse {
                         returnArray.add(value);
                     }
                 } catch (Exception e) {
-                    continue;
+//                    System.out.println(e.getClass().getName());
                 }
             }
         }
         return returnArray;
     }
 
-//    /**
-//     * Iterate through the list and print the
-//     * content to console
-//     */
-//    private void printData() {
-//
-//        System.out.println("Total parsed " + movies.size() + " movies");
-//
-//        for (Movie movie : movies) {
-//            System.out.println("\t" + movie.toString());
-//        }
-//    }
 
     public static void main(String[] args) {
         // create an instance
-        MyDomParse myDomParse = new MyDomParse();
+        MovieDomParse movieDomParse = new MovieDomParse();
 
         // call run example
-        myDomParse.runExample();
+        Set<String> movieIds = movieDomParse.runMovieDomParse();
     }
-
 }

@@ -6,10 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.*;
 
 /**
@@ -33,7 +30,7 @@ public class CartServlet extends HttpServlet {
 
         Map<String, List<Object>> previousItems = (Map<String, List<Object>>) session.getAttribute("previousItems");
         if (previousItems == null) {
-            previousItems = new HashMap<String, List<Object>>();
+            previousItems = new HashMap<>();
         }
         // Log to localhost log
         request.getServletContext().log("getting " + previousItems.size() + " items");
@@ -57,7 +54,7 @@ public class CartServlet extends HttpServlet {
     /**
      * handles POST requests to add and show the item list information
      */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         String item = request.getParameter("movie_id");
         String item2 = request.getParameter("movie_title");
 
@@ -67,8 +64,8 @@ public class CartServlet extends HttpServlet {
 
         Map<String, List<Object>> previousItems = (Map<String, List<Object>>) session.getAttribute("previousItems");
         if (previousItems == null) {
-            previousItems = new HashMap<String, List<Object>>();
-            List<Object> hashMapList = new ArrayList<Object>(Arrays.asList(item2, 1));
+            previousItems = new HashMap<>();
+            List<Object> hashMapList = new ArrayList<>(Arrays.asList(item2, 1));
             previousItems.put(item, hashMapList);
 
             session.setAttribute("previousItems", previousItems);
@@ -80,7 +77,7 @@ public class CartServlet extends HttpServlet {
                     Integer prev_num = (Integer) previousItems.get(item).get(1);
                     previousItems.get(item).set(1, prev_num + 1);
                 } else {
-                    List<Object> hashMapList = new ArrayList<Object>(Arrays.asList(item2, 1));
+                    List<Object> hashMapList = new ArrayList<>(Arrays.asList(item2, 1));
                     previousItems.put(item, hashMapList);
                 }
             }
@@ -99,7 +96,7 @@ public class CartServlet extends HttpServlet {
     }
 
 
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
 
         String movie_id = request.getParameter("movie_id");

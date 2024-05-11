@@ -5,7 +5,6 @@ let login_form = $("#login_form");
  * @param resultDataString jsonObject
  */
 function handleLoginResult(resultDataString) {
-    console.log(resultDataString);
     let resultDataJson = JSON.parse(resultDataString);
 
     console.log("handle login response");
@@ -44,7 +43,10 @@ function submitLoginForm(formSubmitEvent) {
             method: "POST",
             // Serialize the login form to the data sent by POST request
             data: login_form.serialize(),
-            success: handleLoginResult
+            success:  handleLoginResult,
+            error: function(data){
+                console.log(data);
+            }
         }
     );
 }

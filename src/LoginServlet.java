@@ -9,11 +9,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
+
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/api/login")
@@ -35,11 +32,17 @@ public class LoginServlet extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+        String gRecaptchaResponse = request.getParameter("g-recaptcha");
 
         try {
             RecaptchaVerifyUtils.verify(gRecaptchaResponse);
         } catch (Exception e) {
+            request.getServletContext().log("Login failed");
+            JsonObject responseJsonObject = new JsonObject();
+            responseJsonObject.addProperty("status", "fail");
+            responseJsonObject.addProperty("message", e.getMessage());
+            response.getWriter().write(responseJsonObject.toString());
+            response.setStatus(200);
             return;
         }
 
@@ -47,10 +50,11 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
 
         try (Connection conn = dataSource.getConnection()) {
-            Statement statement = conn.createStatement();
-            String query = String.format("select * from customers where email = '%s';", username);
+            String query = "select * from customers where email = ?;";
 
-            ResultSet rs = statement.executeQuery(query);
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, username);
+            ResultSet rs = statement.executeQuery();
 
             JsonObject responseJsonObject = new JsonObject();
             if (rs.isBeforeFirst()) {
@@ -86,9 +90,14 @@ public class LoginServlet extends HttpServlet {
             response.setStatus(200);
 
         } catch (Exception e) {
+            e.printStackTrace();
+
             // Write error message JSON object to output
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("errorMessage", e.getMessage());
+            jsonObject.addProperty("status", "fail");
+            jsonObject.addProperty("message", e.getMessage());
+            jsonObject.addProperty("exception", e.getClass().getName());
+            jsonObject.addProperty("captcha", gRecaptchaResponse);
             response.getWriter().write(jsonObject.toString());
 
             // Log error to localhost log

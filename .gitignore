@@ -171,10 +171,10 @@ buildNumber.properties
 
 .idea/
 
-/log.txt
-/localhostlog.txt
-
-/new_error_log.txt
-/new_genres.txt
-/new_genres_in_movies.txt
-/new_movies.txt
+src/XMLParsing/casts_error_log.txt
+src/XMLParsing/casts_stars.txt
+src/XMLParsing/casts_stars_in_movies.txt
+src/XMLParsing/mains_error_log.txt
+src/XMLParsing/mains_genres.txt
+src/XMLParsing/mains_genres_in_movies.txt
+src/XMLParsing/mains_movies.txt
