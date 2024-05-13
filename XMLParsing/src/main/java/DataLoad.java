@@ -1,3 +1,4 @@
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Map;
@@ -35,19 +36,19 @@ public class DataLoad {
         CastDomParse castDomParse = new CastDomParse();
         castDomParse.runCastDomParse(movieIds, actors);
 
-//        try {
-//            // Connect to the database
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//            Connection connection = DriverManager.getConnection("jdbc:" + Parameters.dbtype + ":///" + Parameters.dbname + "?autoReconnect=true&useSSL=false",
-//                    Parameters.username, Parameters.password);
-//
-//            if (connection != null) {
-//                String secureQuery = "show variables like 'secure_file_priv';";
-//                Statement secureStatement = connection.createStatement();
-//                ResultSet secureRs = secureStatement.executeQuery(secureQuery);
-//                secureRs.next();
-//                securePath = secureRs.getString("value");
-//
+        try {
+            // Connect to the database
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:" + Parameters.dbtype + ":///" + Parameters.dbname + "?autoReconnect=true&useSSL=false",
+                    Parameters.username, Parameters.password);
+
+            if (connection != null) {
+                String secureQuery = "show variables like 'secure_file_priv';";
+                Statement secureStatement = connection.createStatement();
+                ResultSet secureRs = secureStatement.executeQuery(secureQuery);
+                secureRs.next();
+                securePath = secureRs.getString("value");
+
 //                System.out.println("creating backup tables");
 //                Statement tables = connection.createStatement();
 //                String moviesTable = "CREATE TABLE IF NOT EXISTS movies_backup (\n" +
@@ -106,25 +107,25 @@ public class DataLoad {
 
 
 //                System.out.println("loading data into movies");
-//                String query = "LOAD DATA LOCAL INFILE ? " +
+//                String query = "LOAD DATA INFILE ? " +
 //                        "IGNORE INTO TABLE movies " +
 //                        "FIELDS TERMINATED BY ',' " +
 //                        "OPTIONALLY ENCLOSED BY '\"' " +
 //                        "LINES TERMINATED BY '\\n';";
 //
 //                PreparedStatement statement = connection.prepareStatement(query);
-//                statement.setString(1, "mains_movies.txt");
+//                statement.setString(1, securePath + "mains_movies.txt");
 //                statement.executeUpdate();
 //                statement.close();
 //
 //                System.out.println("loading data into genres");
-//                String query2 = "LOAD DATA LOCAL INFILE ? " +
+//                String query2 = "LOAD DATA INFILE ? " +
 //                        "IGNORE INTO TABLE genres " +
 //                        "FIELDS TERMINATED BY ',' " +
 //                        "LINES TERMINATED BY '\\n';";
 //
 //                PreparedStatement statement2 = connection.prepareStatement(query2);
-//                statement2.setString(1, "mains_genres.txt");
+//                statement2.setString(1, securePath + "mains_genres.txt");
 //                statement2.executeUpdate();
 //                statement2.close();
 //
@@ -132,7 +133,7 @@ public class DataLoad {
 ////                tables.executeUpdate(oldGenres);
 //
 //                System.out.println("loading data into stars");
-//                String query3 = "LOAD DATA LOCAL INFILE ? " +
+//                String query3 = "LOAD DATA INFILE ? " +
 //                        "IGNORE INTO TABLE stars " +
 //                        "FIELDS TERMINATED BY ','" +
 //                        "LINES TERMINATED BY '\\n' " +
@@ -140,36 +141,36 @@ public class DataLoad {
 //                        "SET birthYear = NULLIF(@birth_year, 0);";
 //
 //                PreparedStatement statement3 = connection.prepareStatement(query3);
-//                statement3.setString(1, "casts_stars.txt");
+//                statement3.setString(1, securePath + "casts_stars.txt");
 //                statement3.executeUpdate();
 //                statement3.close();
 //
 //                System.out.println("loading data into gim");
-//                String query4 = "LOAD DATA LOCAL INFILE ? " +
+//                String query4 = "LOAD DATA INFILE ? " +
 //                        "IGNORE INTO TABLE genres_in_movies " +
 //                        "FIELDS TERMINATED BY ',' " +
 //                        "LINES TERMINATED BY '\\n';";
 //
 //                PreparedStatement statement4 = connection.prepareStatement(query4);
-//                statement4.setString(1, "mains_genres_in_movies.txt");
+//                statement4.setString(1, securePath + "mains_genres_in_movies.txt");
 //                statement4.executeUpdate();
 //                statement4.close();
 //
 //                System.out.println("loading data into sim");
-//                String query5 = "LOAD DATA LOCAL INFILE ? " +
+//                String query5 = "LOAD DATA INFILE ? " +
 //                        "IGNORE INTO TABLE stars_in_movies " +
 //                        "FIELDS TERMINATED BY ',' " +
 //                        "LINES TERMINATED BY '\\n';";
 //
 //                PreparedStatement statement5 = connection.prepareStatement(query5);
-//                statement5.setString(1, "casts_stars_in_movies.txt");
+//                statement5.setString(1, securePath + "casts_stars_in_movies.txt");
 //                statement5.executeUpdate();
 //                statement5.close();
 
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {

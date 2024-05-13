@@ -1,3 +1,4 @@
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -13,7 +14,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.*;
-
 
 public class MovieDomParse {
 
@@ -102,7 +102,6 @@ public class MovieDomParse {
             Map<String, Integer> genres = new HashMap<>();
             Set<String> movieIdSet = new HashSet<>();
             if (connection != null) {
-//                JsonObject jsonObject = new JsonObject();
 
                 String query = "select * from genres;";
                 Statement statement = connection.createStatement();
@@ -142,9 +141,9 @@ public class MovieDomParse {
             }
 
             //opening files
-            FileWriter newMoviesWriter = new FileWriter("load/mains_movies.txt", false);
-            FileWriter genresInMoviesWriter = new FileWriter("load/mains_genres_in_movies.txt", false);
-            FileWriter genresWriter = new FileWriter("load/mains_genres.txt", false);
+            FileWriter newMoviesWriter = new FileWriter(securePath + "mains_movies.txt", false);
+            FileWriter genresInMoviesWriter = new FileWriter(securePath + "mains_genres_in_movies.txt", false);
+            FileWriter genresWriter = new FileWriter(securePath + "mains_genres.txt", false);
             FileWriter errorLogWriter = new FileWriter("mains_error_log.txt", false);
 
             // get the document root Element

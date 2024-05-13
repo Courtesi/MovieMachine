@@ -11,6 +11,7 @@ IN genre VARCHAR(32)
 proc_label: BEGIN
 
 DECLARE movie_count int;
+DECLARE num_index int DEFAULT 1;
 DECLARE movie_id VARCHAR(10);
 DECLARE prefix VARCHAR(8);
 DECLARE numeric_part INT;
@@ -29,8 +30,16 @@ end if;
 
 SELECT max(id) into movie_id from movies;
 
-SET prefix = SUBSTRING(movie_id, 1, 2);
-SET numeric_part = CAST(SUBSTRING(movie_id, 3) AS UNSIGNED);
+firstloop: WHILE (num_index <= LENGTH(movie_id))
+DO
+if SUBSTRING(movie_id, num_index, 1) REGEXP '[0-9]' THEN
+LEAVE firstloop; 
+END IF;
+SET num_index = num_index + 1;
+END WHILE firstloop;
+
+SET prefix = SUBSTRING(movie_id, 1, num_index - 1);
+SET numeric_part = CAST(SUBSTRING(movie_id, num_index) AS UNSIGNED);
 SET numeric_part = numeric_part + 1;
 
 SET movie_id = CONCAT(prefix, numeric_part);
@@ -51,8 +60,17 @@ select id into star_id from stars where name = star_name and birthYear = birth_y
 end if;
 else
 SELECT max(id) into star_id from stars;
-SET prefix = SUBSTRING(star_id, 1, 2);
-SET numeric_part = CAST(SUBSTRING(star_id, 3) AS UNSIGNED);
+
+SET num_index = 1;
+secondloop: WHILE num_index <= LENGTH(star_id) DO
+if SUBSTRING(star_id, num_index, 1) REGEXP '[0-9]' THEN
+LEAVE secondloop;
+END IF;
+SET num_index = num_index + 1;
+END WHILE secondloop;
+
+SET prefix = SUBSTRING(star_id, 1, num_index - 1);
+SET numeric_part = CAST(SUBSTRING(star_id, num_index) AS UNSIGNED);
 set numeric_part = numeric_part + 1;
 
 set star_id = CONCAT(prefix, numeric_part);
