@@ -142,9 +142,9 @@ public class MovieDomParse {
             }
 
             //opening files
-            FileWriter newMoviesWriter = new FileWriter("mains_movies.txt", false);
-            FileWriter genresInMoviesWriter = new FileWriter("mains_genres_in_movies.txt", false);
-            FileWriter genresWriter = new FileWriter("mains_genres.txt", false);
+            FileWriter newMoviesWriter = new FileWriter("load/mains_movies.txt", false);
+            FileWriter genresInMoviesWriter = new FileWriter("load/mains_genres_in_movies.txt", false);
+            FileWriter genresWriter = new FileWriter("load/mains_genres.txt", false);
             FileWriter errorLogWriter = new FileWriter("mains_error_log.txt", false);
 
             // get the document root Element
