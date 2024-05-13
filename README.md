@@ -14,6 +14,12 @@ for concatenated columns (i.e genre and stars)
 "having genre_names like '%Action%'"
 or "having stars like '%tom%'"
 
+
+Project 3:
+https://youtu.be/yai91yO90k8
+
+Credits: All Me
+
 Brief, optimization report:
 I used the "load data" command in mysql while directly putting the files into the
 "secure_file_priv" folder location found using "show variables like 'secure_file_priv'".
