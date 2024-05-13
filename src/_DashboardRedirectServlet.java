@@ -13,10 +13,6 @@ public class _DashboardRedirectServlet implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-        if (httpRequest.getSession().getAttribute("user") == null) {
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/_dashboard/employee-login.html");
-        } else {
-            chain.doFilter(request, response);
-        }
+        httpResponse.sendRedirect(httpRequest.getContextPath() + "/_dashboard/employee-login.html");
     }
 }
