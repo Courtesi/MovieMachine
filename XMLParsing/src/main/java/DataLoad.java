@@ -1,5 +1,3 @@
-package XMLParsing;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Map;

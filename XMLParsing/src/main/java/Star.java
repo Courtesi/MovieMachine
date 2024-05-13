@@ -1,5 +1,3 @@
-package XMLParsing;
-
 public class Star {
 
     private final String id;

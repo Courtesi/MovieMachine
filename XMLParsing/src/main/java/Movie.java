@@ -1,5 +1,3 @@
-package XMLParsing;
-
 import java.util.ArrayList;
 
 public class Movie {

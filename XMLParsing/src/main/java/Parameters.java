@@ -1,5 +1,3 @@
-package XMLParsing;
-
 public interface Parameters {
     String dbtype = "mysql";
     String dbname = "moviedb";
