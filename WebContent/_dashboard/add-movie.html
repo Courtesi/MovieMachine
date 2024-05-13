@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../style.css">
+
+    <title>Add a Movie</title>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="buttons">
+        <a href="index.html">Metadata</a>
+        <a href="add-movie.html">Add a Movie</a>
+        <a href="add-star.html">Add a Star</a>
+        <a href="../main.html">Browsing Movies</a>
+    </div>
+</div>
+
+<form id="add-movie" method="get">
+    <div class="input-group">
+        <div class="inside-div">
+            <header>Add a Movie</header>
+            <div id="movie_details"><h2>New Movie Details</h2></div>
+            <div class="form-group">
+                <input class="input" name="movie_title" id="movie_title" required type="text">
+                <label class="password-label" for="movie_title">Movie Title</label>
+            </div>
+            <div class="form-group">
+                <input class="input" name="movie_year" id="movie_year" required type="text">
+                <label class="password-label" for="movie_year">Movie Year</label>
+            </div>
+            <div class="form-group">
+                <input class="input" name="movie_director" id="movie_director" required type="text">
+                <label class="username-label" for="movie_director">Movie Director</label>
+            </div>
+            <div class="form-group">
+                <input class="input" name="star_name" id="star_name" required type="text">
+                <label class="password-label" for="star_name">Star Name</label>
+            </div>
+            <div class="form-group">
+                <input class="input" name="birth_year" id="birthyear" type="text">
+                <label class="password-label" for="birthyear">Birth Year (Optional)</label>
+            </div>
+            <div class="form-group">
+                <input class="input" name="genre_name" id="genre_name" required type="text">
+                <label class="password-label" for="genre_name">Genre Name</label>
+            </div>
+
+            <button class="button-36" role="button" type ="submit">Submit</button>
+        </div>
+        <div id="add_star_error_message"></div>
+    </div>
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="add-movie.js"></script>
+
+</body>
+</html>

@@ -208,3 +208,15 @@ tr:last-child td {
 .quantity {
     padding: 0 10px;
 }
+
+#add-star {
+    text-align: center;
+}
+
+#star_details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertically center items */
+    align-items: center; /* Horizontally center items */
+    margin: 5px; /* Add margin between links */
+}

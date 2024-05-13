@@ -23,6 +23,7 @@ public class MovieDomParse {
 //    List<Movie> movies = new ArrayList<>();
     Document dom;
     int maxId;
+    String securePath;
 
     Map<String, String> categories = new HashMap<>();
     Set<String> movieIds = new HashSet<>();
@@ -48,7 +49,6 @@ public class MovieDomParse {
         categories.put("tvm", "TV Miniseries");
 
         categories.put("actn", "Action");
-        categories.put("camp now", "Camp");
         categories.put("disa", "Disaster");
         categories.put("epic", "Epic");
         categories.put("cart", "Cartoon");
@@ -97,12 +97,6 @@ public class MovieDomParse {
 
     private void parseDocument() {
         try {
-            //opening files
-            FileWriter newMoviesWriter = new FileWriter("src/XMLParsing/mains_movies.txt", false);
-            FileWriter genresInMoviesWriter = new FileWriter("src/XMLParsing/mains_genres_in_movies.txt", false);
-            FileWriter genresWriter = new FileWriter("src/XMLParsing/mains_genres.txt", false);
-            FileWriter errorLogWriter = new FileWriter("src/XMLParsing/mains_error_log.txt", false);
-
             // Connect to the database
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:" + Parameters.dbtype + ":///" + Parameters.dbname + "?autoReconnect=true&useSSL=false",
@@ -131,14 +125,30 @@ public class MovieDomParse {
                 maxIdRs.next();
                 maxId = Integer.parseInt(maxIdRs.getString("max(id)"));
 
+                String secureQuery = "show variables like 'secure_file_priv';";
+                Statement secureStatement = connection.createStatement();
+                ResultSet secureRs = secureStatement.executeQuery(secureQuery);
+                secureRs.next();
+                securePath = secureRs.getString("value");
+                System.out.println("kajsghdashjkgd: " + securePath);
+
+
                 statement.close();
                 rs.close();
                 maxStatement.close();
                 maxIdRs.close();
+                secureStatement.close();
+                secureRs.close();
             } else {
                 System.out.println("No connection");
                 return;
             }
+
+            //opening files
+            FileWriter newMoviesWriter = new FileWriter(securePath + "mains_movies.txt", false);
+            FileWriter genresInMoviesWriter = new FileWriter(securePath + "mains_genres_in_movies.txt", false);
+            FileWriter genresWriter = new FileWriter(securePath + "mains_genres.txt", false);
+            FileWriter errorLogWriter = new FileWriter("mains_error_log.txt", false);
 
             // get the document root Element
             Element documentElement = dom.getDocumentElement();
@@ -186,6 +196,7 @@ public class MovieDomParse {
                         //iterate through film's genres to update genres and genres_in_movies
                         String writerString = "";
                         boolean flag = false;
+                        Set<String> currentGenres = new HashSet<>();
                         for (String outerS: movie.getGenre()) {
                             String[] stringSplit = outerS.split(" ");
 
@@ -193,15 +204,18 @@ public class MovieDomParse {
                                 if (!genres.containsKey(categories.get(s.toLowerCase().replaceAll("\\s", "")))) {
                                     if (categories.get(s.toLowerCase()) != null) {
                                         maxId++;
-                                        genresWriter.write(categories.get(s.toLowerCase()) + "," + maxId + "\n");
-                                        genres.put(categories.get(s.toLowerCase()), maxId);
+                                        genresWriter.write(maxId + "," + categories.get(s.toLowerCase()) + "\n");
+                                        genres.put(categories.get(s.toLowerCase().replaceAll("\\s", "")), maxId);
                                     } else {
                                         errorLogWriter.write("Invalid genre: " + movie + "," + movie.getGenre() + "\n");
                                         flag = true;
                                         break;
                                     }
                                 }
-                                writerString += genres.get(categories.get(s.toLowerCase())) + "," + movie.getId() + "\n";
+                                if (!currentGenres.contains(s.toLowerCase().replaceAll("\\s", ""))) {
+                                    writerString += genres.get(categories.get(s.toLowerCase().replaceAll("\\s", ""))) + "," + movie.getId() + "\n";
+                                    currentGenres.add(s.toLowerCase().replaceAll("\\s", ""));
+                                }
                             }
 
                             if (flag) {break; }
@@ -235,6 +249,9 @@ public class MovieDomParse {
 
         String id = getTextValue(element, "fid");
         String title = getTextValue(element, "t");
+        if (title != null) {
+            title = title.replaceAll(",", "");
+        }
         int year = getIntValue(element, "year");
         ArrayList<String> genre = getArrayValue(element, "cat");
         // create a new Employee with the value read from the xml nodes

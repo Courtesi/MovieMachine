@@ -53,6 +53,8 @@ public class LoginFilter implements Filter {
         allowedURIs.add("api/login");
         allowedURIs.add("style.css");
         allowedURIs.add("login.css");
+        allowedURIs.add("/_dashboard");
+        allowedURIs.add("_dashboard/api/employee_login");
     }
 
     public void destroy() {

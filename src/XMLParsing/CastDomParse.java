@@ -22,6 +22,7 @@ public class CastDomParse {
 
     Document dom;
     String maxId;
+    String securePath;
 
     public void runCastDomParse(Set<String> movieIds, Map<String, ArrayList<Object>> actors) {
 
@@ -53,11 +54,6 @@ public class CastDomParse {
 
     private void parseDocument(Set<String> movieIds, Map<String, ArrayList<Object>> actors) {
         try {
-            FileWriter newStars = new FileWriter("src/XMLParsing/casts_stars.txt", false);
-            FileWriter newStarsInMovies = new FileWriter("src/XMLParsing/casts_stars_in_movies.txt", false);
-            FileWriter errorLog = new FileWriter("src/XMLParsing/casts_error_log.txt", false);
-
-
             // Connect to the database
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:" + Parameters.dbtype + ":///" + Parameters.dbname + "?autoReconnect=true&useSSL=false",
@@ -71,12 +67,25 @@ public class CastDomParse {
                 rs.next();
                 maxId = rs.getString("max(id)");
 
+                String secureQuery = "show variables like 'secure_file_priv';";
+                Statement secureStatement = connection.createStatement();
+                ResultSet secureRs = secureStatement.executeQuery(secureQuery);
+                secureRs.next();
+                securePath = secureRs.getString("value");
+                System.out.println("kajsghdashjkgd: " + securePath);
+
                 statement.close();
                 rs.close();
+                secureStatement.close();
+                secureRs.close();
             } else {
                 System.out.println("no connection to database");
                 return;
             }
+
+            FileWriter newStars = new FileWriter(securePath + "casts_stars.txt", false);
+            FileWriter newStarsInMovies = new FileWriter(securePath + "casts_stars_in_movies.txt", false);
+            FileWriter errorLog = new FileWriter("casts_error_log.txt", false);
 
             // get the document root Element
             Element documentElement = dom.getDocumentElement();
@@ -86,6 +95,7 @@ public class CastDomParse {
             NodeList nodeList = documentElement.getElementsByTagName("dirfilms");
             System.out.println("going through director films in cast...");
             Set<String> actorRepeats = new HashSet<>();
+            Set<String> actorss = new HashSet<>();
             for (int i = 0; i < nodeList.getLength(); i++) {
                 // get the star element
                 Element element = (Element) nodeList.item(i);
@@ -103,7 +113,10 @@ public class CastDomParse {
 
                         if (starName != null && movieId != null && !starName.replaceAll("\\s", "").equalsIgnoreCase("sa") && actors.containsKey(starName) && movieIds.contains(movieId)) {
                             counter++;
-                            newStarsInMovies.write(actors.get(starName).get(0) + "," + movieId + "\n");
+                            if (!actorss.contains(actors.get(starName).get(0) + "," + movieId)) {
+                                newStarsInMovies.write(actors.get(starName).get(0) + "," + movieId + "\n");
+                                actorss.add(actors.get(starName).get(0) + "," + movieId);
+                            }
                             if (!actorRepeats.contains((String)actors.get(starName).get(0))) {
                                 newStars.write(actors.get(starName).get(0) + "," + starName + "," + actors.get(starName).get(1) + "\n");
                             }

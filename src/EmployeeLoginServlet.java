@@ -13,8 +13,8 @@ import java.sql.*;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
-@WebServlet(name = "LoginServlet", urlPatterns = "/api/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "EmployeeLoginServlet", urlPatterns = "/_dashboard/api/employee_login")
+public class EmployeeLoginServlet extends HttpServlet {
     private static final long serialVersionUID = 2L;
 
     // Create a dataSource which registered in web.xml
@@ -34,6 +34,8 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
 
+        System.out.println("gRecaptcha: " + gRecaptchaResponse);
+
         try {
             RecaptchaVerifyUtils.verify(gRecaptchaResponse);
         } catch (Exception e) {
@@ -50,7 +52,7 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
 
         try (Connection conn = dataSource.getConnection()) {
-            String query = "select * from customers where email = ?;";
+            String query = "select * from employees where email = ?;";
 
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, username);
@@ -119,7 +121,7 @@ public class LoginServlet extends HttpServlet {
         Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
         Statement statement = connection.createStatement();
 
-        String query = String.format("SELECT * from customers where email='%s'", email);
+        String query = String.format("SELECT * from employees where email='%s'", email);
 
         ResultSet rs = statement.executeQuery(query);
 
