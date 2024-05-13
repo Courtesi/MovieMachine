@@ -92,8 +92,8 @@ public class CastDomParse {
             int counter = 0;
             NodeList nodeList = documentElement.getElementsByTagName("dirfilms");
             System.out.println("going through director films in cast...");
-            Set<String> actorRepeats = new HashSet<>();
-            Set<String> actorss = new HashSet<>();
+//            Set<String> actorRepeats = new HashSet<>();
+//            Set<String> actorss = new HashSet<>();
             for (int i = 0; i < nodeList.getLength(); i++) {
                 // get the star element
                 Element element = (Element) nodeList.item(i);
@@ -111,15 +111,20 @@ public class CastDomParse {
 
                         if (starName != null && movieId != null && !starName.replaceAll("\\s", "").equalsIgnoreCase("sa") && actors.containsKey(starName) && movieIds.contains(movieId)) {
                             counter++;
-                            if (!actorss.contains(actors.get(starName).get(0) + "," + movieId)) {
-                                newStarsInMovies.write(actors.get(starName).get(0) + "," + movieId + "\n");
-                                actorss.add(actors.get(starName).get(0) + "," + movieId);
+                            if (counter % 1000 == 0) {
+                                System.out.println("i: " + i);
                             }
-                            if (!actorRepeats.contains((String)actors.get(starName).get(0))) {
-                                newStars.write(actors.get(starName).get(0) + "," + starName + "," + actors.get(starName).get(1) + "\n");
-                            }
-
-                            actorRepeats.add((String)actors.get(starName).get(0));
+                            newStarsInMovies.write(actors.get(starName).get(0) + "," + movieId + "\n");
+                            newStars.write(actors.get(starName).get(0) + "," + starName + "," + actors.get(starName).get(1) + "\n");
+//                            if (!actorss.contains(actors.get(starName).get(0) + "," + movieId)) {
+//                                newStarsInMovies.write(actors.get(starName).get(0) + "," + movieId + "\n");
+//                                actorss.add(actors.get(starName).get(0) + "," + movieId);
+//                            }
+//                            if (!actorRepeats.contains((String)actors.get(starName).get(0))) {
+//                                newStars.write(actors.get(starName).get(0) + "," + starName + "," + actors.get(starName).get(1) + "\n");
+//                            }
+//
+//                            actorRepeats.add((String)actors.get(starName).get(0));
                         } else {
                             errorLog.write("invalid entry: " + starName + "\n");
                         }

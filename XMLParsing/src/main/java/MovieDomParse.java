@@ -155,6 +155,9 @@ public class MovieDomParse {
             System.out.println("system going through directorfilms...");
             int counter = 0;
             for (int i = 0; i < nodeList.getLength(); i++) {
+                if (i % 500 == 0) {
+                    System.out.println("i: " + i);
+                }
 
                 // get the employee element
                 Element element = (Element) nodeList.item(i);
@@ -310,11 +313,11 @@ public class MovieDomParse {
     }
 
 
-    public static void main(String[] args) {
-        // create an instance
-        MovieDomParse movieDomParse = new MovieDomParse();
-
-        // call run example
-        Set<String> movieIds = movieDomParse.runMovieDomParse();
-    }
+//    public static void main(String[] args) {
+//        // create an instance
+//        MovieDomParse movieDomParse = new MovieDomParse();
+//
+//        // call run example
+//        Set<String> movieIds = movieDomParse.runMovieDomParse();
+//    }
 }

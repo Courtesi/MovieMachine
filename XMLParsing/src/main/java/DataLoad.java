@@ -107,7 +107,7 @@ public class DataLoad {
 
                 System.out.println("loading data into movies");
                 String query = "LOAD DATA LOCAL INFILE ? " +
-                        "INTO TABLE movies " +
+                        "IGNORE INTO TABLE movies " +
                         "FIELDS TERMINATED BY ',' " +
                         "OPTIONALLY ENCLOSED BY '\"' " +
                         "LINES TERMINATED BY '\\n';";
@@ -115,23 +115,25 @@ public class DataLoad {
                 PreparedStatement statement = connection.prepareStatement(query);
                 statement.setString(1, "mains_movies.txt");
                 statement.executeUpdate();
+                statement.close();
 
                 System.out.println("loading data into genres");
                 String query2 = "LOAD DATA LOCAL INFILE ? " +
-                        "INTO TABLE genres " +
+                        "IGNORE INTO TABLE genres " +
                         "FIELDS TERMINATED BY ',' " +
                         "LINES TERMINATED BY '\\n';";
 
                 PreparedStatement statement2 = connection.prepareStatement(query2);
                 statement2.setString(1, "mains_genres.txt");
                 statement2.executeUpdate();
+                statement2.close();
 
 //                String oldGenres = "insert ignore into genres select * from genres;";
 //                tables.executeUpdate(oldGenres);
 
                 System.out.println("loading data into stars");
                 String query3 = "LOAD DATA LOCAL INFILE ? " +
-                        "INTO TABLE stars " +
+                        "IGNORE INTO TABLE stars " +
                         "FIELDS TERMINATED BY ','" +
                         "LINES TERMINATED BY '\\n' " +
                         "(id, name, @birth_year) " +
@@ -140,26 +142,30 @@ public class DataLoad {
                 PreparedStatement statement3 = connection.prepareStatement(query3);
                 statement3.setString(1, "casts_stars.txt");
                 statement3.executeUpdate();
+                statement3.close();
 
                 System.out.println("loading data into gim");
                 String query4 = "LOAD DATA LOCAL INFILE ? " +
-                        "INTO TABLE genres_in_movies " +
+                        "IGNORE INTO TABLE genres_in_movies " +
                         "FIELDS TERMINATED BY ',' " +
                         "LINES TERMINATED BY '\\n';";
 
                 PreparedStatement statement4 = connection.prepareStatement(query4);
                 statement4.setString(1, "mains_genres_in_movies.txt");
                 statement4.executeUpdate();
+                statement4.close();
 
                 System.out.println("loading data into sim");
                 String query5 = "LOAD DATA LOCAL INFILE ? " +
-                        "INTO TABLE stars_in_movies " +
+                        "IGNORE INTO TABLE stars_in_movies " +
                         "FIELDS TERMINATED BY ',' " +
                         "LINES TERMINATED BY '\\n';";
 
                 PreparedStatement statement5 = connection.prepareStatement(query5);
                 statement5.setString(1, "casts_stars_in_movies.txt");
                 statement5.executeUpdate();
+                statement5.close();
+
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -80,9 +80,6 @@ public class StarDomParse {
 
             int counter = 0;
             for (int i = 0; i < nodeList.getLength(); i++) {
-                if (i % 500 == 0) {
-                    System.out.println("i: " + i);
-                }
                 // get the star element
                 Element element = (Element) nodeList.item(i);
 
@@ -90,6 +87,9 @@ public class StarDomParse {
                 Star star = parseStar(element);
 
                 if (star.getName() != null) {
+                    if (counter % 1000 == 0) {
+                        System.out.println("i: " + i);
+                    }
                     counter++;
                     ArrayList<Object> actor_info = new ArrayList<Object>(Arrays.asList(star.getId(), star.getBirthYear()));
                     actors.put(star.getName(), actor_info);
@@ -151,11 +151,11 @@ public class StarDomParse {
         }
     }
 
-    public static void main(String[] args) {
-        // create an instance
-        StarDomParse starDomParse = new StarDomParse();
-
-        // call run example
-        Map<String, ArrayList<Object>> actors = starDomParse.runStarDomParse();
-    }
+//    public static void main(String[] args) {
+//        // create an instance
+//        StarDomParse starDomParse = new StarDomParse();
+//
+//        // call run example
+//        Map<String, ArrayList<Object>> actors = starDomParse.runStarDomParse();
+//    }
 }
