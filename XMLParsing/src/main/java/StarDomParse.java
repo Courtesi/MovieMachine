@@ -80,6 +80,9 @@ public class StarDomParse {
 
             int counter = 0;
             for (int i = 0; i < nodeList.getLength(); i++) {
+                if (i % 500 == 0) {
+                    System.out.println("i: " + i);
+                }
                 // get the star element
                 Element element = (Element) nodeList.item(i);
 
