@@ -179,3 +179,4 @@ src/XMLParsing/mains_genres.txt
 src/XMLParsing/mains_genres_in_movies.txt
 src/XMLParsing/mains_movies.txt
 src/XMLParsing/create_backup_tables.txt
+stanford-movies/

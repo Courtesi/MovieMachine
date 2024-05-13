@@ -1,6 +1,5 @@
 package XMLParsing;
 
-import com.google.gson.JsonObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -86,7 +85,7 @@ public class MovieDomParse {
 
             // parse using builder to get DOM representation of the XML file
             System.out.println("system running...");
-            dom = documentBuilder.parse("stanford-movies/mains243.xml");
+            dom = documentBuilder.parse("./stanford-movies/mains243.xml");
             System.out.println("System passed documentbuilder...");
 
         } catch (ParserConfigurationException | SAXException | IOException error) {
