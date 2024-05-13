@@ -82,8 +82,8 @@ public class CastDomParse {
                 return;
             }
 
-            FileWriter newStars = new FileWriter(securePath + "casts_stars.txt", false);
-            FileWriter newStarsInMovies = new FileWriter(securePath + "casts_stars_in_movies.txt", false);
+            FileWriter newStars = new FileWriter("load/casts_stars.txt", false);
+            FileWriter newStarsInMovies = new FileWriter("load/casts_stars_in_movies.txt", false);
             FileWriter errorLog = new FileWriter("casts_error_log.txt", false);
 
             // get the document root Element
