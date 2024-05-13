@@ -1,7 +1,5 @@
 package XMLParsing;
 
-import java.util.ArrayList;
-
 public class Star {
 
     private final String id;

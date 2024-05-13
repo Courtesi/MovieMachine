@@ -1,7 +1,5 @@
 package XMLParsing;
 
-import org.w3c.dom.Element;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Map;
