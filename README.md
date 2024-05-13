@@ -23,3 +23,18 @@ parsing so as to avoid duplicate entries. I also didn't have to load all of the 
 of the original table into memory since the ids looked extremely different and were in
 various different forms. If the ids had a chance of looking similar, then I would've
 loaded them into memory to check for duplicates.
+
+Pre-optimization would take around 10 seconds in total on local machine.
+Post-optimization would be around 4 seconds in total.
+
+Incosistency reports:
+casts_error_log.txt
+mains_error_log.txt
+
+Prepared Statement Files:
+LoginServlet
+EmployeeLoginServlet
+MoviesServlet
+SingleMovieServlet
+SingleStarServlet
+AddMovieServlet
