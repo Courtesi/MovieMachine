@@ -24,7 +24,7 @@ public class SearchServlet extends HttpServlet {
 
     public void init(ServletConfig config) {
         try {
-            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/moviedb");
+            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/slave");
         } catch (NamingException e) {
             e.printStackTrace();
         }
