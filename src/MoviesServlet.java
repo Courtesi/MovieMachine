@@ -36,6 +36,23 @@ public class MoviesServlet extends HttpServlet {
         }
     }
 
+    public static String tokenizeQuery(String input) {
+        // Split the input string into words
+        String[] words = input.split(" ");
+
+        // StringBuilder to hold the resulting string
+        StringBuilder result = new StringBuilder();
+
+        // Iterate through each word
+        for (String word : words) {
+            // Add + before the word and * after the word
+            result.append("+").append(word).append("*").append(" ");
+        }
+
+        // Convert StringBuilder to String and trim the trailing space
+        return result.toString().trim();
+    }
+
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
@@ -94,9 +111,9 @@ public class MoviesServlet extends HttpServlet {
 
             //search bar
             if (!(request.getParameter("title") == null) && !request.getParameter("title").isEmpty()) {
-                search += "where title like ? ";
+                search += "where MATCH (title) AGAINST (? IN BOOLEAN MODE) ";
                 search_count += 1;
-                search_map.put(search_count, String.format("%%%s%%", request.getParameter("title")));
+                search_map.put(search_count, tokenizeQuery(request.getParameter("title")));
 
                 session.setAttribute("title", request.getParameter("title"));
             } else {

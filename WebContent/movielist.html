@@ -22,13 +22,24 @@
         <a href="cart.html">Checkout</a>
     </div>
     <div class="search">
-        <form action="movielist.html" method="get">
+        <form id="full_text_search" action="movielist.html" method="get">
+            <input type="text" name="title" id="autocomplete"
+                   class="autocomplete-searchbox form-control"
+                   placeholder="Full Text Search"/>
+            <button type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+
+    <div class="search">
+        <form id="search_form" action="movielist.html" method="get">
             <input name="title" type="text" placeholder="Title..">
             <input name="year" type="text" placeholder="Year..">
             <input name="director" type="text" placeholder="Director..">
             <input name="star" type="text" placeholder="Star..">
             <button type="submit">
-                <i class="fa fa-search" style="font-size: 18px;"></i>
+                <i class="fa fa-search"></i>
             </button>
         </form>
     </div>

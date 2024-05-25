@@ -22,13 +22,24 @@
         <a href="cart.html">Checkout</a>
     </div>
     <div class="search">
-        <form action="movielist.html" method="get">
+        <form id="full_text_search" action="movielist.html" method="get">
+            <input type="text" name="title" id="autocomplete"
+                   class="autocomplete-searchbox form-control"
+                   placeholder="Full Text Search"/>
+            <button type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+
+    <div class="search">
+        <form id="search_form" action="movielist.html" method="get">
             <input name="title" type="text" placeholder="Title..">
             <input name="year" type="text" placeholder="Year..">
             <input name="director" type="text" placeholder="Director..">
             <input name="star" type="text" placeholder="Star..">
             <button type="submit">
-                <i class="fa fa-search" style="font-size: 18px;"></i>
+                <i class="fa fa-search"></i>
             </button>
         </form>
     </div>
@@ -48,6 +59,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.11/jquery.autocomplete.min.js"></script>
 
 <!-- Load our own JS file -->
 <!-- The path is relative to main.html, since these two files are in the same directory -->

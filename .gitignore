@@ -182,3 +182,5 @@ src/XMLParsing/create_backup_tables.txt
 stanford-movies/
 
 create_backup_tables.txt
+create_table.sql
+movie-data.sql

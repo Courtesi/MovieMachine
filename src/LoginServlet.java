@@ -60,7 +60,10 @@ public class LoginServlet extends HttpServlet {
             if (rs.isBeforeFirst()) {
                 rs.next();
 
-                if (verifyCredentials(username, password)) {
+                String encryptedPassword = rs.getString("password");
+                boolean success = new StrongPasswordEncryptor().checkPassword(password, encryptedPassword);
+
+                if (success) {
                     // Login success:
 
                     // set this user into the session
@@ -97,7 +100,6 @@ public class LoginServlet extends HttpServlet {
             jsonObject.addProperty("status", "fail");
             jsonObject.addProperty("message", e.getMessage());
             jsonObject.addProperty("exception", e.getClass().getName());
-            jsonObject.addProperty("captcha", gRecaptchaResponse);
             response.getWriter().write(jsonObject.toString());
 
             // Log error to localhost log
@@ -107,37 +109,5 @@ public class LoginServlet extends HttpServlet {
         } finally {
             response.getWriter().close();
         }
-    }
-
-    private static boolean verifyCredentials(String email, String password) throws Exception {
-
-        String loginUser = "mytestuser";
-        String loginPasswd = "My6$Password";
-        String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
-
-        Class.forName("com.mysql.jdbc.Driver").newInstance();
-        Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-        Statement statement = connection.createStatement();
-
-        String query = String.format("SELECT * from customers where email='%s'", email);
-
-        ResultSet rs = statement.executeQuery(query);
-
-        boolean success = false;
-        if (rs.next()) {
-            // get the encrypted password from the database
-            String encryptedPassword = rs.getString("password");
-
-            // use the same encryptor to compare the user input password with encrypted password stored in DB
-            success = new StrongPasswordEncryptor().checkPassword(password, encryptedPassword);
-        }
-
-        rs.close();
-        statement.close();
-        connection.close();
-
-//        System.out.println("verify " + email + " - " + password);
-
-        return success;
     }
 }
