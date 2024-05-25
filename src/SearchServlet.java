@@ -99,12 +99,12 @@ public class SearchServlet extends HttpServlet {
      * }
      *
      */
-    private static JsonObject generateJsonObject(String id, String title) {
+    private static JsonObject generateJsonObject(String movie_id, String movie_title) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("title", title);
+        jsonObject.addProperty("value", movie_title);
 
         JsonObject additionalDataJsonObject = new JsonObject();
-        additionalDataJsonObject.addProperty("id", id);
+        additionalDataJsonObject.addProperty("movie_id", movie_id);
 
         jsonObject.add("data", additionalDataJsonObject);
         return jsonObject;

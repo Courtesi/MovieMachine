@@ -84,10 +84,10 @@ function handleLookupAjaxSuccess(data, query, doneCallback) {
  * You can redirect to the page you want using the suggestion data.
  */
 function handleSelectSuggestion(suggestion) {
-    // console.log("you select " + suggestion["title"] + " with ID " + suggestion["data"]["id"])
+    // console.log("you select " + suggestion["value"] + " with ID " + suggestion["data"]["id"])
 
     // TODO: jump to the specific result page based on the selected suggestion
-    window.location.replace("single-movie.html?id=" + suggestion["data"]["id"]);
+    window.location.replace("single-movie.html?id=" + suggestion["data"]["movie_id"]);
 }
 
 
@@ -123,7 +123,7 @@ function handleNormalSearch(query) {
     // console.log("doing normal search with query: " + query);
     // TODO: you should do normal search here
     window.location.replace("movielist.html?title=" + query);
-    console.log("test");
+    // console.log("test");
 }
 
 // bind pressing enter key to a handler function
