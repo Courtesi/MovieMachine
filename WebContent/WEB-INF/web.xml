@@ -23,14 +23,14 @@
     </resource-ref>
 
     <resource-ref>
-        <description>MySQL Master DataSource From moviedb</description>
+        <description>Master DataSource From moviedb</description>
         <res-ref-name>jdbc/master</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
     </resource-ref>
 
     <resource-ref>
-        <description>MySQL Slave DataSource From moviedb</description>
+        <description>Slave DataSource From moviedb</description>
         <res-ref-name>jdbc/slave</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
