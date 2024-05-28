@@ -10,6 +10,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -44,7 +45,7 @@ public class AddStarServlet extends HttpServlet {
 
         try (Connection conn = dataSource.getConnection()) {
             String query = "select max(id) from stars;";
-            Statement statement = conn.createStatement();
+            PreparedStatement statement = conn.prepareStatement(query);
             ResultSet max_id = statement.executeQuery(query);
 
             max_id.next();
@@ -54,7 +55,12 @@ public class AddStarServlet extends HttpServlet {
 
             String insertQuery;
             if (birthYear == null || birthYear.isEmpty()) {
-                insertQuery = String.format("INSERT INTO stars (id, name) values ('%s', '%s');", newId, starName);
+                insertQuery = "INSERT INTO stars (id, name) values (?, ?);"; //String.format(, newId, starName);
+
+                PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
+                insertStatement.setString(1, newId);
+                insertStatement.setString(2, starName);
+                insertStatement.executeUpdate(insertQuery);
             } else {
                 if (!birthYear.matches("-?(0|[1-9]\\d*)")) {
                     JsonObject json = new JsonObject();
@@ -64,7 +70,12 @@ public class AddStarServlet extends HttpServlet {
                     response.setStatus(200);
                     return;
                 }
-                insertQuery = String.format("INSERT INTO stars (id, name, birthYear) values ('%s', '%s', '%s');", newId, starName, birthYear);
+                insertQuery = "INSERT INTO stars (id, name, birthYear) values (?, ?, ?);"; //newId, starName, birthYear);
+                PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
+                insertStatement.setString(1, newId);
+                insertStatement.setString(2, starName);
+                insertStatement.setString(3, birthYear);
+                insertStatement.executeUpdate(insertQuery);
             }
 
             statement.executeUpdate(insertQuery);
