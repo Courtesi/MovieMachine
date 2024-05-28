@@ -181,6 +181,11 @@ src/XMLParsing/mains_movies.txt
 src/XMLParsing/create_backup_tables.txt
 stanford-movies/
 
-create_backup_tables.txt
+
 create_table.sql
 movie-data.sql
+stored-procedure.sql
+
+casts_error_log.txt
+create_backup_tables.txt
+mains_error_log.txt
