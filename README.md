@@ -44,3 +44,38 @@ MoviesServlet
 SingleMovieServlet
 SingleStarServlet
 AddMovieServlet
+
+Project 4:
+https://youtu.be/_MaczAkGIFM
+
+Credits: All Me
+
+Task 2:
+Had to edit WebContent/META-INF/context.xml
+<Resource> tags with name:
+jdbc/moviedb
+and with url:
+"jdbc:mysql://<ip>:3306/moviedb?autoReconnect=true&amp;allowPublicKeyRetrieval=true&amp;useSSL=false&amp;cachePrepStmts=true"
+where <ip> is localhost
+and with factory:
+"org.apache.tomcat.jdbc.pool.DataSourceFactory"
+and with attributes:
+maxTotal="100" maxIdle="30" maxWaitMillis="10000"
+to my <Resource> tags on top of the original attributes
+also added <resource-ref> tags to web.xml to include both master and slave
+
+PreparedStatements:
+AddMovieServlet
+AddStarServlet
+EmployeeLoginServlet
+LoginServlet
+MoviesServlet
+SearchServlet
+SingleMovieServlet
+SingleStarServlet
+
+Task 4, Sub-task 1:
+Same thing as task 2 except added added jdbc/master and jdbc/slave
+with same attributes where <ip> for jdbc/master is my private ipv4 address for my master instance (instance 2)
+and <ip> for jdbc/slave is localhost
+Had to add two other <resource-ref> tags in web.xml to account for jdbc/master and jdbc/slave
