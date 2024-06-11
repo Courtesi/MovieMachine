@@ -79,3 +79,10 @@ Same thing as task 2 except added added jdbc/master and jdbc/slave
 with same attributes where <ip> for jdbc/master is my private ipv4 address for my master instance (instance 2)
 and <ip> for jdbc/slave is localhost
 Had to add two other <resource-ref> tags in web.xml to account for jdbc/master and jdbc/slave
+
+Project 5:
+https://www.youtube.com/watch?v=AWX5xXUwybo
+
+Throughput for two pods: 886.172/minute
+Throughput for three pods: 813.065/minute
+
