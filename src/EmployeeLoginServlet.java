@@ -63,7 +63,8 @@ public class EmployeeLoginServlet extends HttpServlet {
                 rs.next();
 
                 String encryptedPassword = rs.getString("password");
-                boolean success = new StrongPasswordEncryptor().checkPassword(password, encryptedPassword);
+                boolean success = encryptedPassword.equals(password);
+//                boolean success = new StrongPasswordEncryptor().checkPassword(password, encryptedPassword);
 
                 if (success) {
                     // Login success:
