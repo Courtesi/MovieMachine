@@ -15,7 +15,7 @@ Welcome to **MovieMachine**! This is a web app designed to help users discover m
 - **Frontend:** HTML, CSS, JavaScript
 - **Backend:** Java, Tomcat, JDBC
 - **Database:** MySQL
-- **Deployment:** Vercel (Frontend), Heroku (Backend)
+- **Deployment:** Amazon Web Services
 
 
 ## Installation
